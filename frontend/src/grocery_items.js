@@ -1,4 +1,4 @@
-const products = [
+const grocery_items = [
   {
     '_id': '1',
     'name': 'Apple',
@@ -9,7 +9,7 @@ const products = [
     'category': 'Fruits',
     'price': 159,
     'countInStock': 30,
-    'rating': 4.5,
+    'rating': 0.0,
     'numReviews': 3,
   },
   {
@@ -80,4 +80,4 @@ const products = [
 ]
 
 
-export default products
+export default grocery_items;
