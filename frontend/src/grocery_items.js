@@ -60,7 +60,7 @@ const grocery_items = [
     'brand': 'Local Red',
     'category': 'Vegetables',
     'price': 59,
-    'countInStock': 7,
+    'countInStock': 0,
     'rating': 4.5,
     'numReviews': 10,
   },
