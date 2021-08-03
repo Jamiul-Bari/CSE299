@@ -74,15 +74,37 @@ Install these before running the project
    ```sh
    git clone https://github.com/Jamiul-Bari/CSE299.git
    ```
-2. Open your terminal or Command Line inside the root directory and change your directory to /frontend
-   ```sh
-   cd frontend
-   ```
-3. Install required npm packages 
-   ```sh
-   npm install
-   ```
-4. Now to start the React Development
-   ```sh
-   npm start
-   ```
+2. Configuration
+   1. Configure the frontend
+      1. Open your terminal or Command Line inside the root directory and change your directory to /frontend
+      ```sh
+      cd frontend
+      ```
+      2. Install required npm packages 
+      ```sh
+      npm install
+      ```
+      3. Now to start the React Development Server
+      ```sh
+      npm start
+      ```
+   2. Configure the Backend
+      1. Open your terminal or Command Line inside the root directory.
+      2. Install virtualenv python package
+         ```sh
+         pip install virtualenv
+         ```
+      3. Create a virtual environment in the root directory for this project using virtualenv.
+         ```sh
+         virtualenv venv
+         ```
+      4. Activate your virtual env “venv” before installing any python package for this project. Activate (For Windows) using - 
+         ```sh
+         venv/scripts/activate
+         ```
+      5. Now if your virtual environment activated correctly, you will see "venv" written in the command line interface.
+      6. Now install the required packages for the backend as per "requirements.txt". Simply, run this command while you are in the root directory (the directory containing "requirements.txt")
+         ```sh
+         pip install -r requirements.txt
+         ```
+3. Now the project frontend (React) is what users will use. Since we are not rendering templates through Django. 
