@@ -50,6 +50,9 @@ frontend/yarn-debug.log*
 frontend/yarn-error.log*
 
 # Backend
+backend/db.sqlite3
+backend/**/migrations/
+
 # Python #
 *.py[cod]
 *$py.class
@@ -78,10 +81,4 @@ pip-log.txt
 pip-delete-this-directory.txt
 
 # Environments
-.env
-.venv
-env/
 venv/
-ENV/
-env.bak/
-venv.bak/
