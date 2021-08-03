@@ -1,11 +1,25 @@
-import React from 'react';
-import { Row, Col } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react';
+import { Row, Col } from 'react-bootstrap';
+import axios from 'axios'
 
 import GroceryItem from '../components/GroceryItem';
 
 import grocery_items from '../grocery_items';
 
 function HomePage() {
+    const [grocery_items, setGroceryItems] = useState([]);
+
+    useEffect(() => {
+
+        async function fetchGroceryItems() {
+            const { data } = await axios.get('/drf/grocery-items/');
+            setGroceryItems(data);
+        }
+
+        fetchGroceryItems();
+
+    }, []);
+
     return (
         <div>
             <h1>Latest Products</h1>
