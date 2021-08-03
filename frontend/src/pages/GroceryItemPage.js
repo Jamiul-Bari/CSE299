@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Button, Card } from 'react-bootstrap';
+import axios from 'axios'
+
 import Rating from '../components/Rating';
-import grocery_items from '../grocery_items';
+
 
 function GroceryItemPage({ match }) {
-    const grocery_item = grocery_items.find((gi) => gi._id === match.params.id);
+
+    const [grocery_item, setGroceryItem] = useState([]);
+
+    useEffect(() => {
+
+        async function fetchGroceryItem() {
+            const { data } = await axios.get(`/drf/grocery-item/${match.params.id}`);
+            setGroceryItems(data);
+        }
+
+        fetchGroceryItem();
+
+    }, []);
+
     return (
         <div>
             <Link to='/' className='btn btn-light my-3'>Back</Link>
