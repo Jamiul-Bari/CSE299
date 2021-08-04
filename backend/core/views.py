@@ -1,7 +1,9 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from .models import GroceryItem
 from .grocery_items import grocery_items
+from .serializers import GroceryItemSerializer
 
 
 # Create your views here.
@@ -27,16 +29,13 @@ def get_routes(request):
 
 @api_view(['GET'])
 def get_grocery_item(request, pk):
-    grocery_item = None
-
-    for i in grocery_items:
-        if i['_id'] == pk:
-            grocery_item = i
-            break
-
-    return Response(grocery_item)
+    grocery_item = GroceryItem.objects.get(_id=pk)
+    serializer = GroceryItemSerializer(grocery_item, many=False)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
 def get_grocery_items(request):
-    return Response(grocery_items)
+    grocery_items_query_set = GroceryItem.objects.all()
+    serializer = GroceryItemSerializer(grocery_items_query_set, many=True)
+    return Response(serializer.data)
