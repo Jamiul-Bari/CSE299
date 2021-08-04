@@ -14,7 +14,7 @@ function GroceryItemPage({ match }) {
 
         async function fetchGroceryItem() {
             const { data } = await axios.get(`/drf/grocery-item/${match.params.id}`);
-            setGroceryItems(data);
+            setGroceryItem(data);
         }
 
         fetchGroceryItem();
