@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 
 import HomePage from './pages/HomePage';
 import GroceryItemPage from './pages/GroceryItemPage';
+import CartPage from './pages/CartPage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Container>
           <Route path='/' component={HomePage} exact />
           <Route path='/grocery-item/:id' component={GroceryItemPage} />
+          <Route path='/cart/:id?' component={CartPage} />
         </Container>
       </main>
       

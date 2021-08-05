@@ -8,7 +8,7 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import {listGroceryItemDetails} from '../actions/GroceryItemActions';
 
-function GroceryItemPage({match}) {
+function GroceryItemPage({match, history}) {
 
     const [qty, setQty] = useState(1);
 
@@ -21,6 +21,11 @@ function GroceryItemPage({match}) {
         dispatch(listGroceryItemDetails(match.params.id));
 
     }, [dispatch, match]);
+
+    const addToCart = () => {
+        // Redirect to another page
+        history.push(`/cart/${match.params.id}?qty=${qty}`)
+    }
 
     return (
         <div>
@@ -108,6 +113,7 @@ function GroceryItemPage({match}) {
 
                                             <ListGroup.Item>
                                                 <Button
+                                                    onClick={addToCart}
                                                     className="btn-block"
                                                     type="button"
                                                     disabled={grocery_item.countInStock === 0}>
