@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Row, Col, ListGroup, Image, Form, Button, Card} from 'react-bootstrap';
 
 import Message from '../components/Message';
-import {addToCart} from '../actions/CartActions';
+import {addToCart, removeFromCart} from '../actions/CartActions';
 
 function CartPage({match, location, history}) {
     const grocery_item_id = match.params.id;
@@ -19,12 +19,12 @@ function CartPage({match, location, history}) {
 
     useEffect(() => {
         if (grocery_item_id) {
-            dispatch(addToCart(grocery_item_id, qty))
+            dispatch(addToCart(grocery_item_id, qty));
         }
     }, [dispatch, grocery_item_id, qty]);
 
-    const removeFromCart = () => {
-
+    const removeFromCartHandler = (id) => {
+        dispatch(removeFromCart(id));
     }
     
     const checkout = () => {
@@ -79,7 +79,7 @@ function CartPage({match, location, history}) {
                                                 <Button
                                                     type='button'
                                                     variant='light'
-                                                    onClick={() => removeFromCart(grocery.grocery_item)}
+                                                    onClick={() => removeFromCartHandler(grocery.grocery_item)}
                                                 >
                                                     <i className='fas fa-trash'></i>
                                                 </Button>
