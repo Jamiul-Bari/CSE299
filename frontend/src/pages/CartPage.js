@@ -23,11 +23,98 @@ function CartPage({match, location, history}) {
         }
     }, [dispatch, grocery_item_id, qty]);
 
+    const removeFromCart = () => {
+
+    }
+    
+    const checkout = () => {
+        history.push('/login?redirect=shipping')
+    }
 
     return (
-        <div>
-            Cart
-        </div>
+        <Row>
+            <Col md={8}>
+                <h1>Shopping Cart</h1>
+                {
+                    grocery_in_cart.length === 0
+                        ? (
+                            <Message variant='info'>
+                                Your have no grocery in your cart <Link to='/'>Go Back</Link>
+                            </Message>
+                        ) : (
+                            <ListGroup variant='flush'>
+                                {grocery_in_cart.map(grocery => (
+                                    <ListGroup.Item key={grocery.grocery_item}>
+                                        <Row>
+                                            <Col md={2}>
+                                                <Image src={grocery.image} alt={grocery.name} fluid rounded/>
+                                            </Col>
+
+                                            <Col md={3}>
+                                                <Link to={`/grocery-item/${grocery.grocery_item}`}>{grocery.name}</Link>
+                                            </Col>
+
+                                            <Col md={2}>
+                                                ৳ {grocery.price}
+                                            </Col>
+
+                                            <Col md={3}>
+                                                <Form.Control
+                                                    as='select'
+                                                    value={grocery.qty}
+                                                    onChange={(e) => dispatch(addToCart(grocery.grocery_item, Number(e.target.value)))}
+                                                >
+                                                    {
+                                                        [...Array(grocery.countInStock).keys()].map((numberOfItem) => (
+                                                            <option key={numberOfItem + 1}
+                                                                    value={numberOfItem + 1}>
+                                                                {numberOfItem + 1}
+                                                            </option>
+                                                        ))
+                                                    }
+                                                </Form.Control>
+                                            </Col>
+
+                                            <Col md={1}>
+                                                <Button
+                                                    type='button'
+                                                    variant='light'
+                                                    onClick={() => removeFromCart(grocery.grocery_item)}
+                                                >
+                                                    <i className='fas fa-trash'></i>
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                    </ListGroup.Item>
+                                ))}
+                            </ListGroup>
+                        )
+                }
+            </Col>
+
+            <Col md={4}>
+                <Card>
+                    <ListGroup variant='flush'>
+                        <ListGroup.Item>
+                            <h2>Total ({grocery_in_cart.reduce((acc, grocery) => acc + grocery.qty, 0)}) items</h2>
+
+                            ৳{grocery_in_cart.reduce((acc, grocery) => acc + (grocery.qty * grocery.price), 0).toFixed(2)}
+                        </ListGroup.Item>
+                    </ListGroup>
+
+                    <ListGroup.Item>
+                        <Button
+                            type='button'
+                            className='btn-block'
+                            disabled={grocery_in_cart.length === 0}
+                            onClick={checkout}
+                        >
+                            Proceed to Checkout
+                        </Button>
+                    </ListGroup.Item>
+                </Card>
+            </Col>
+        </Row>
     )
 }
 
