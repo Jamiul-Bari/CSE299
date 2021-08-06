@@ -7,6 +7,9 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
+from django.contrib.auth.hashers import make_password
+from rest_framework import status
+
 from .models import GroceryItem
 from .grocery_items import grocery_items
 from .serializers import GroceryItemSerializer, UserSerializer, UserSerializerWithToken
@@ -28,25 +31,25 @@ class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 
-# Create your views here.
-@api_view(['GET'])
-def get_routes(request):
-    routes = [
-        "/drf/products/",
-        "/drf/products/create/",
+@api_view(['POST'])
+def register_user(request):
+    data = request.data
 
-        "/drf/products/upload/",
+    try:
+        user = User.objects.create(
+            first_name = data['name'],
+            username = data['email'],
+            email = data['email'],
+            password = make_password(data['password'])
+        )
 
-        "/drf/products/<id>/reviews/",
+        # Register and give a token right away
+        serializer = UserSerializerWithToken(user, many=False)
 
-        "/drf/products/top/",
-        "/drf/products/<id>/",
-
-        "/drf/products/delete/<id>/",
-        "/drf/products/<update>/<id>/",
-    ]
-
-    return Response(routes)
+        return Response(serializer.data)
+    except:
+        message = {'detail': 'User with email already exists'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
