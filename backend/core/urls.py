@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.get_routes, name='routes'),
 
     path('users/profile/', views.get_user_profile, name='user-profile'),
+    path('users/', views.get_users, name='users'),
 
     path('grocery-items/', views.get_grocery_items, name='grocery-items'),
     path('grocery-item/<str:pk>', views.get_grocery_item, name='grocery-item'),
