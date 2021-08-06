@@ -10,9 +10,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
 
-from .models import GroceryItem
-from .grocery_items import grocery_items
-from .serializers import GroceryItemSerializer, UserSerializer, UserSerializerWithToken
+from core.serializers import GroceryItemSerializer, UserSerializer, UserSerializerWithToken
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -37,10 +35,10 @@ def register_user(request):
 
     try:
         user = User.objects.create(
-            first_name = data['name'],
-            username = data['email'],
-            email = data['email'],
-            password = make_password(data['password'])
+            first_name=data['name'],
+            username=data['email'],
+            email=data['email'],
+            password=make_password(data['password'])
         )
 
         # Register and give a token right away
@@ -50,6 +48,7 @@ def register_user(request):
     except:
         message = {'detail': 'User with email already exists'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
@@ -67,18 +66,3 @@ def get_user_profile(request):
     user = request.user
     serializer = UserSerializer(user, many=False)
     return Response(serializer.data)
-
-
-@api_view(['GET'])
-def get_grocery_items(request):
-    grocery_items_query_set = GroceryItem.objects.all()
-    serializer = GroceryItemSerializer(grocery_items_query_set, many=True)
-    return Response(serializer.data)
-
-
-@api_view(['GET'])
-def get_grocery_item(request, pk):
-    grocery_item = GroceryItem.objects.get(_id=pk)
-    serializer = GroceryItemSerializer(grocery_item, many=False)
-    return Response(serializer.data)
-
