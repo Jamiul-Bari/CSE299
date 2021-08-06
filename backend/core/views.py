@@ -6,16 +6,20 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import GroceryItem
 from .grocery_items import grocery_items
-from .serializers import GroceryItemSerializer
+from .serializers import GroceryItemSerializer, UserSerializer, UserSerializerWithToken
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
 
-        data['username'] = self.user.username
-        data['email'] = self.user.email
+        serializer = UserSerializerWithToken(self.user).data
+
+        for key, value in serializer.items():
+            data[key] = value
 
         return data
+
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -53,4 +57,13 @@ def get_grocery_item(request, pk):
 def get_grocery_items(request):
     grocery_items_query_set = GroceryItem.objects.all()
     serializer = GroceryItemSerializer(grocery_items_query_set, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_user_profile(request):
+    # When a user logs in using default Django authentication. You can get the authenticated user from request.user
+    # But here it will get from the token. Then it will give user from the token.
+    user = request.user
+    serializer = UserSerializer(user, many=False)
     return Response(serializer.data)
