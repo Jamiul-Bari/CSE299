@@ -24,8 +24,8 @@ export const listGroceryItems = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: GROCERY_ITEM_LIST_FAIL,
-            payload: error.response && error.response.data.message
-                ? error.response.data.message
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
                 : error.message,
         })
     }
@@ -45,8 +45,8 @@ export const listGroceryItemDetails = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: GROCERY_ITEM_DETAILS_FAIL,
-            payload: error.response && error.response.data.message
-                ? error.response.data.message
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
                 : error.message,
         })
     }
