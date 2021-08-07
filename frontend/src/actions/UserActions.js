@@ -10,6 +10,10 @@ import {
     USER_REGISTER_REQUEST,
     USER_REGISTER_SUCCESS,
     USER_REGISTER_FAIL,
+
+    USER_DETAILS_REQUEST,
+    USER_DETAILS_SUCCESS,
+    USER_DETAILS_FAIL,
 } from '../constants/UserConstants';
 
 
@@ -91,5 +95,42 @@ export const register = (name, email, password) => async (dispatch) => {
                 ? error.response.data.detail
                 : error.message
         })
+    }
+}
+
+export const get_user_details = (id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: USER_DETAILS_REQUEST
+        });
+
+        const {
+            userLogin: {user_information}
+        } = getState()
+
+        const config = {
+            header: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${user_information.token}`
+            }
+        }
+
+        const {data} = await axios.get(
+            `/drf/users/${id}/`,
+            config
+        );
+
+        dispatch({
+            type: USER_DETAILS_SUCCESS,
+            payload: data
+        });
+
+    } catch (error) {
+        dispatch({
+            type: USER_DETAILS_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message
+        });
     }
 }
