@@ -7,7 +7,7 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
 
-import {login, register} from '../actions/UserActions';
+import {register} from '../actions/UserActions';
 
 function RegisterPage({location, history}) {
 
