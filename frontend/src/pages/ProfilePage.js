@@ -6,7 +6,9 @@ import {useDispatch, useSelector} from 'react-redux'
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
-import {get_user_details, register} from '../actions/UserActions';
+import {get_user_details, update_user_profile} from '../actions/UserActions';
+
+import {USER_UPDATE_PROFILE_RESET} from '../constants/UserConstants'
 
 function ProfilePage({history}) {
 
@@ -25,11 +27,15 @@ function ProfilePage({history}) {
     const userLogin = useSelector(state => state.userLogin);
     const {user_information} = userLogin;
 
+    const userUpdateProfile = useSelector(state => state.userUpdateProfile);
+    const {success} = userUpdateProfile;
+
     useEffect(() => {
         if (!user_information) {
             history.push('/login')
         } else {
-            if (!user || !user.name) {
+            if (!user || !user.name || success) {
+                dispatch({type: USER_UPDATE_PROFILE_RESET});
                 dispatch(get_user_details('profile'))
             } else {
                 setName(user.name);
@@ -44,7 +50,13 @@ function ProfilePage({history}) {
         if (password != confirmPassword) {
             setMessage('Passwords do not match');
         } else {
-            console.log("Updating");
+            dispatch(update_user_profile({
+                'id': user._id,
+                'name': name,
+                'email': email,
+                'password': password
+            }));
+            setMessage('');
         }
     }
 
