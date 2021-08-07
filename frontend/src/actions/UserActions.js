@@ -14,6 +14,7 @@ import {
     USER_DETAILS_REQUEST,
     USER_DETAILS_SUCCESS,
     USER_DETAILS_FAIL,
+    USER_DETAILS_RESET,
 
     USER_UPDATE_PROFILE_REQUEST,
     USER_UPDATE_PROFILE_SUCCESS,
@@ -61,6 +62,7 @@ export const logout = () => (dispatch) => {
     localStorage.removeItem('user_information');
 
     dispatch({type: USER_LOGOUT});
+    dispatch({type: USER_DETAILS_RESET});
 }
 
 export const register = (name, email, password) => async (dispatch) => {
@@ -158,7 +160,8 @@ export const update_user_profile = (user) => async (dispatch, getState) => {
         }
 
         const {data} = await axios.put(
-            `/drf/users/${id}/`,
+            `/drf/users/profile/update/`,
+            user,
             config
         );
 
@@ -166,6 +169,13 @@ export const update_user_profile = (user) => async (dispatch, getState) => {
             type: USER_UPDATE_PROFILE_SUCCESS,
             payload: data
         });
+
+        dispatch({
+            type: USER_LOGIN_SUCCESS,
+            payload: data
+        });
+
+        localStorage.setItem('user_information', JSON.stringify(data));
 
     } catch (error) {
         dispatch({
