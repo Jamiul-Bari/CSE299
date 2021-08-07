@@ -4,11 +4,13 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 
 import {GroceryItemListReducer, GroceryItemDetailsReducer} from './reducers/GroceryItemReducers'
 import {CartReducers} from './reducers/CartReducers';
+import {UserLoginReducer} from './reducers/UserReducers';
 
 const reducer = combineReducers({
     groceryItemList: GroceryItemListReducer,
     groceryItemDetails: GroceryItemDetailsReducer,
-    cart: CartReducers
+    cart: CartReducers,
+    userLogin: UserLoginReducer,
 })
 
 // Loading data from the LocalStorage
@@ -16,9 +18,14 @@ const grocery_in_cart_from_storage = localStorage.getItem('grocery_in_cart')
     ? JSON.parse(localStorage.getItem('grocery_in_cart'))
     : []
 
+const user_information_from_storage = localStorage.getItem('user_information')
+    ? JSON.parse(localStorage.getItem('user_information'))
+    : null
+
 
 const initialState = {
-    cart: {grocery_in_cart: grocery_in_cart_from_storage}
+    cart: {grocery_in_cart: grocery_in_cart_from_storage},
+    userLogin: {user_information: user_information_from_storage}
 }
 
 const middleware = [thunk]
