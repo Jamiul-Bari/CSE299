@@ -4,7 +4,12 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 
 import {GroceryItemListReducer, GroceryItemDetailsReducer} from './reducers/GroceryItemReducers'
 import {CartReducers} from './reducers/CartReducers';
-import {UserLoginReducer, UserRegisterReducer} from './reducers/UserReducers';
+import {
+    UserLoginReducer,
+    UserRegisterReducer,
+    UserDetailsReducer,
+    UserUpdateProfileReducer
+} from './reducers/UserReducers';
 
 const reducer = combineReducers({
     groceryItemList: GroceryItemListReducer,
@@ -12,6 +17,8 @@ const reducer = combineReducers({
     cart: CartReducers,
     userLogin: UserLoginReducer,
     userRegister: UserRegisterReducer,
+    userDetails: UserDetailsReducer,
+    userUpdateProfile: UserUpdateProfileReducer,
 })
 
 // Loading data from the LocalStorage
