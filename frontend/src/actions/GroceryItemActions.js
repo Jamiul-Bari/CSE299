@@ -35,7 +35,7 @@ export const listGroceryItemDetails = (id) => async (dispatch) => {
     try {
         dispatch({type: GROCERY_ITEM_DETAILS_REQUEST})
 
-        const {data} = await axios.get(`/drf/grocery-item/${id}`);
+        const {data} = await axios.get(`/drf/grocery-items/${id}`);
 
         dispatch({
             type: GROCERY_ITEM_DETAILS_SUCCESS,
