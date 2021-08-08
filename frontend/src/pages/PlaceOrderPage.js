@@ -6,9 +6,18 @@ import {useDispatch, useSelector} from 'react-redux';
 import Message from '../components/Message';
 import CheckoutStages from '../components/CheckoutStages';
 
-function PlaceOrderScreen() {
+import {create_order} from '../actions/OrderActions'
+
+import {ORDER_CREATE_RESET} from '../constants/OrderConstants'
+
+function PlaceOrderPage({history}) {
+
+    const orderCreate = useSelector(state => state.orderCreate);
+    const {order, error, success} = orderCreate;
 
     const cart = useSelector(state => state.cart);
+
+    const dispatch = useDispatch();
 
     cart.grocery_items_price = cart.grocery_in_cart.reduce((acc, grocery) => acc + (grocery.price * grocery.qty), 0).toFixed(2);
     cart.delivery_charge = (cart.grocery_items_price > 4000 ? 0 : 50).toFixed(2);
@@ -16,8 +25,29 @@ function PlaceOrderScreen() {
 
     cart.total_price = (Number(cart.grocery_items_price) + Number(cart.delivery_charge) + Number(cart.vat)).toFixed(2);
 
+    if (!cart.payment_method) {
+        history.push('/payment');
+    }
+
+    useEffect(() => {
+        if (success) {
+            history.push(`/order/${order._id}`);
+            dispatch({
+                type: ORDER_CREATE_RESET
+            });
+        }
+    }, [success, history]);
+
     const placeOrder = () => {
-        console.log("PLace order");
+        dispatch(create_order({
+            order_items: cart.grocery_in_cart,
+            shipping_address: cart.shipping_address,
+            payment_method: cart.payment_method,
+            grocery_items_price: cart.grocery_items_price,
+            delivery_charge: cart.delivery_charge,
+            vat: cart.vat,
+            total_price: cart.total_price
+        }));
     }
 
     return (
@@ -74,8 +104,8 @@ function PlaceOrderScreen() {
                                                             </Col>
 
                                                             <Col md={4}>
-                                                                {grocery.qty} X BDT. {grocery.price} =
-                                                                BDT. {(grocery.qty * grocery.price).toFixed(2)}
+                                                                {grocery.qty} X ৳ {grocery.price} =
+                                                                ৳ {(grocery.qty * grocery.price).toFixed(2)}
                                                             </Col>
                                                         </Row>
                                                     </ListGroup.Item>
@@ -98,29 +128,35 @@ function PlaceOrderScreen() {
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Grocery Items: </Col>
-                                    <Col>BDT.{cart.grocery_items_price}  </Col>
+                                    <Col>৳ {cart.grocery_items_price}  </Col>
                                 </Row>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Shipping: </Col>
-                                    <Col>BDT.{cart.delivery_charge}  </Col>
+                                    <Col>৳ {cart.delivery_charge}  </Col>
                                 </Row>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
                                 <Row>
                                     <Col>VAT: </Col>
-                                    <Col>BDT.{cart.vat}  </Col>
+                                    <Col>৳ {cart.vat}  </Col>
                                 </Row>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Total: </Col>
-                                    <Col>BDT.{cart.total_price}  </Col>
+                                    <Col>৳ {cart.total_price}  </Col>
                                 </Row>
+                            </ListGroup.Item>
+
+                            <ListGroup.Item>
+                                {
+                                    error && <Message variant='danger'>{error}</Message>
+                                }
                             </ListGroup.Item>
 
                             <ListGroup.Item>
@@ -141,4 +177,4 @@ function PlaceOrderScreen() {
     )
 }
 
-export default PlaceOrderScreen;
+export default PlaceOrderPage;

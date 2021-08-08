@@ -10,7 +10,7 @@ from core.serializers import GroceryItemSerializer, OrderSerializer
 
 
 @api_view(['POST'])
-@permission_classes(['IsAuthenticated'])
+@permission_classes([IsAuthenticated])
 def add_order_items(request):
     user = request.user
     data = request.data
@@ -31,9 +31,9 @@ def add_order_items(request):
         #     Create Shipping Address
         shipping = ShippingAddress.objects.create(
             order=order,
-            address=data['shippingAddress']['address'],
-            city=data['shippingAddress']['city'],
-            postalCode=data['shippingAddress']['postalCode'],
+            address=data['shipping_address']['address'],
+            city=data['shipping_address']['city'],
+            postalCode=data['shipping_address']['postalCode'],
         )
         #     Create Order items and set order to orderItem relationship
         for i in orderItems:
@@ -52,5 +52,5 @@ def add_order_items(request):
             grocery_item.countInStock -=item.qty
             grocery_item.save()
 
-    serializer = OrderSerializer(order, many=True)
-    return Response('order')
+        serializer = OrderSerializer(order, many=False)
+        return Response('order')
