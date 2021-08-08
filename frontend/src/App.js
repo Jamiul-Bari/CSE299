@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import CheckoutPage from './pages/CheckoutPage';
+import PaymentPage from './pages/PaymentPage';
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                     <Route path='/register' component={RegisterPage}/>
                     <Route path='/profile' component={ProfilePage}/>
                     <Route path='/checkout' component={CheckoutPage}/>
+                    <Route path='/payment' component={PaymentPage}/>
                     <Route path='/grocery-item/:id' component={GroceryItemPage}/>
                     <Route path='/cart/:id?' component={CartPage}/>
                 </Container>

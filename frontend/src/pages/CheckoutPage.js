@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {Button, Form} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux';
 
 import FormContainer from '../components/FormContainer';
 import CheckoutStages from '../components/CheckoutStages';
 
-import {saveShippingAddress} from '../actions/CartActions'
+import {saveShippingAddress} from '../actions/CartActions';
 
 
 function CheckoutPage({history}) {
