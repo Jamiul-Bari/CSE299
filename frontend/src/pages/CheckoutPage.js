@@ -3,6 +3,7 @@ import {Button, Form} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux'
 
 import FormContainer from '../components/FormContainer';
+import CheckoutStages from '../components/CheckoutStages';
 
 import {saveShippingAddress} from '../actions/CartActions'
 
@@ -26,6 +27,7 @@ function CheckoutPage({history}) {
 
     return (
         <FormContainer>
+            <CheckoutStages stage1 />
             <h1>Checkout</h1>
             <Form onSubmit={submitHandler}>
 
