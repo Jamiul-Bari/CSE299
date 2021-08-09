@@ -2,14 +2,23 @@ import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension';
 
-import {GroceryItemListReducer, GroceryItemDetailsReducer} from './reducers/GroceryItemReducers'
+import {
+    GroceryItemListReducer,
+    GroceryItemDetailsReducer
+} from './reducers/GroceryItemReducers';
+
 import {CartReducers} from './reducers/CartReducers';
+
 import {
     UserLoginReducer,
     UserRegisterReducer,
     UserDetailsReducer,
     UserUpdateProfileReducer
 } from './reducers/UserReducers';
+
+import {
+    OrderCreateReducer
+} from './reducers/OrderReducers'
 
 const reducer = combineReducers({
     groceryItemList: GroceryItemListReducer,
@@ -19,6 +28,7 @@ const reducer = combineReducers({
     userRegister: UserRegisterReducer,
     userDetails: UserDetailsReducer,
     userUpdateProfile: UserUpdateProfileReducer,
+    orderCreate: OrderCreateReducer
 })
 
 // Loading data from the LocalStorage

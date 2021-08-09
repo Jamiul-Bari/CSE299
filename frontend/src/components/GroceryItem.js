@@ -28,7 +28,7 @@ function GroceryItem({ grocery_item }) {
                 </Card.Text>
 
                 <Card.Text as="h3">
-                    ৳{grocery_item.price}
+                    ৳ {grocery_item.price}
                 </Card.Text>
             </Card.Body>
         </Card>
