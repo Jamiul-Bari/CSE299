@@ -23,7 +23,7 @@ function HomePage() {
         <div>
             <h1>Latest Products</h1>
             {
-                loading ? <Loader />
+                loading ? <Loader/>
                     : error ? <Message variant='danger'>{error}</Message>
                         : <Row>
                             {/* Map through every grocery items */}
