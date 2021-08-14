@@ -30,7 +30,7 @@ export const login = (email, password) => async (dispatch) => {
         });
 
         const config = {
-            header: {
+            headers: {
                 'Content-type': 'application/json'
             }
         }
@@ -72,7 +72,7 @@ export const register = (name, email, password) => async (dispatch) => {
         });
 
         const config = {
-            header: {
+            headers: {
                 'Content-type': 'application/json'
             }
         }
@@ -116,7 +116,7 @@ export const get_user_details = (id) => async (dispatch, getState) => {
         } = getState()
 
         const config = {
-            header: {
+            headers: {
                 'Content-type': 'application/json',
                 Authorization: `Bearer ${user_information.token}`
             }
@@ -153,7 +153,7 @@ export const update_user_profile = (user) => async (dispatch, getState) => {
         } = getState()
 
         const config = {
-            header: {
+            headers: {
                 'Content-type': 'application/json',
                 Authorization: `Bearer ${user_information.token}`
             }
@@ -170,6 +170,7 @@ export const update_user_profile = (user) => async (dispatch, getState) => {
             payload: data
         });
 
+        // Log the new user in
         dispatch({
             type: USER_LOGIN_SUCCESS,
             payload: data
