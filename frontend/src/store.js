@@ -7,7 +7,7 @@ import {
     GroceryItemDetailsReducer
 } from './reducers/GroceryItemReducers';
 
-import {CartReducers} from './reducers/CartReducers';
+import {CartReducer} from './reducers/CartReducers';
 
 import {
     UserLoginReducer,
@@ -16,14 +16,12 @@ import {
     UserUpdateProfileReducer
 } from './reducers/UserReducers';
 
-import {
-    OrderCreateReducer
-} from './reducers/OrderReducers'
+import {OrderCreateReducer} from './reducers/OrderReducers';
 
 const reducer = combineReducers({
     groceryItemList: GroceryItemListReducer,
     groceryItemDetails: GroceryItemDetailsReducer,
-    cart: CartReducers,
+    cart: CartReducer,
     userLogin: UserLoginReducer,
     userRegister: UserRegisterReducer,
     userDetails: UserDetailsReducer,

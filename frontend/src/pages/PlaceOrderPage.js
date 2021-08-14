@@ -25,6 +25,7 @@ function PlaceOrderPage({history}) {
 
     cart.total_price = (Number(cart.grocery_items_price) + Number(cart.delivery_charge) + Number(cart.vat)).toFixed(2);
 
+    // If a payment method is not selected then redirect to /payment
     if (!cart.payment_method) {
         history.push('/payment');
     }
@@ -35,6 +36,7 @@ function PlaceOrderPage({history}) {
             dispatch({
                 type: ORDER_CREATE_RESET
             });
+            // clear the order items if the order is successfully placed
         }
     }, [success, history]);
 

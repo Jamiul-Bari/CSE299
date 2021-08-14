@@ -2,7 +2,7 @@ import axios from 'axios';
 import {
     ORDER_CREATE_REQUEST,
     ORDER_CREATE_SUCCESS,
-    ORDER_CREATE_FAIL, ORDER_CREATE_RESET
+    ORDER_CREATE_FAIL,
 } from '../constants/OrderConstants';
 
 import {CART_CLEAR_ITEMS} from '../constants/CartConstants';
@@ -18,7 +18,7 @@ export const create_order = (order) => async (dispatch, getState) => {
         } = getState()
 
         const config = {
-            header: {
+            headers: {
                 'Content-type': 'application/json',
                 Authorization: `Bearer ${user_information.token}`
             }
@@ -40,7 +40,7 @@ export const create_order = (order) => async (dispatch, getState) => {
             payload: data
         });
 
-        localStorage.removeItem('grocery_in_cart')
+        localStorage.removeItem('grocery_in_cart');
 
     } catch (error) {
         dispatch({
