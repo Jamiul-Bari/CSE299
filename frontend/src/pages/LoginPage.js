@@ -15,13 +15,13 @@ function LoginPage({location, history}) {
 
     const dispatch = useDispatch();
 
-    const redirect = location.search ? location.search.split('=')[1] : '/'
+    const redirect = location.search ? location.search.split('=')[1] : '/';
 
-    const userLogin = useSelector(state => state.userLogin)
-    const {error, loading, user_information} = userLogin
+    const userLogin = useSelector(state => state.userLogin);
+    const {error, loading, user_information} = userLogin;
 
     useEffect(() => {
-        if(user_information) {
+        if (user_information) {
             history.push(redirect)
         }
     }, [history, user_information, redirect])
@@ -35,7 +35,7 @@ function LoginPage({location, history}) {
         <FormContainer>
             <h1>Sign In</h1>
             {error && <Message variant='danger'>{error}</Message>}
-            {loading && <Loader />}
+            {loading && <Loader/>}
 
             <Form onSubmit={submitHandler}>
 

@@ -36,7 +36,7 @@ function ProfilePage({history}) {
         } else {
             if (!user || !user.name || success) {
                 dispatch({type: USER_UPDATE_PROFILE_RESET});
-                dispatch(get_user_details('profile'))
+                dispatch(get_user_details('profile')) // profile => id
             } else {
                 setName(user.name);
                 setEmail(user.email);
@@ -47,7 +47,7 @@ function ProfilePage({history}) {
     const submitHandler = (e) => {
         e.preventDefault();
 
-        if (password != confirmPassword) {
+        if (password !== confirmPassword) {
             setMessage('Passwords do not match');
         } else {
             dispatch(update_user_profile({
