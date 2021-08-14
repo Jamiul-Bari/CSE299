@@ -8,7 +8,7 @@ import {
     CART_CLEAR_ITEMS
 } from '../constants/CartConstants';
 
-export const CartReducers = (state = {grocery_in_cart: [], shipping_address: {}}, action) => {
+export const CartReducer = (state = {grocery_in_cart: [], shipping_address: {}}, action) => {
     switch (action.type) {
         case CART_ADD_ITEM:
             // check if item exists

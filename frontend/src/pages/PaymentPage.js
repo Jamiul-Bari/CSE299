@@ -15,7 +15,7 @@ function PaymentPage({history}) {
 
     const dispatch = useDispatch();
 
-    const [paymentMethod, setPaymentMethod] = useState('SSLCOMMERZ')
+    const [payment_method, setPaymentMethod] = useState('SSLCOMMERZ')
 
     if (!shipping_address.address) {
         history.push('/checkout');
@@ -23,8 +23,9 @@ function PaymentPage({history}) {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        dispatch(savePaymentMethod(paymentMethod));
+        dispatch(savePaymentMethod(payment_method));
         history.push('/place-order');
+        // console.log(payment_method);
     }
 
     return (
@@ -40,12 +41,27 @@ function PaymentPage({history}) {
                             type='radio'
                             label='SSLCOMMERZ'
                             id='SSLCOMMERZ'
-                            name='SSLCOMMERZ'
-                            checked
+                            name='payment_method'
+                            value='SSLCOMMERZ'
+                            required
                             onChange={(e) => setPaymentMethod(e.target.value)}
                         >
 
                         </Form.Check>
+
+                        <Form.Check
+                            type='radio'
+                            label='Cash on Delivery'
+                            id='cod'
+                            name='payment_method'
+                            value='Cash on Delivery'
+                            required
+                            onChange={(e) => setPaymentMethod(e.target.value)}
+                        >
+
+                        </Form.Check>
+
+
                     </Col>
                 </Form.Group>
 
