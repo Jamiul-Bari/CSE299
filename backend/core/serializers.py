@@ -32,7 +32,8 @@ class UserSerializerWithToken(UserSerializer):
 
     class Meta:
         model = User
-        fields = ['id', '_id', 'username', 'email', 'name', 'is_admin', 'token']
+        fields = ['id', '_id', 'username',
+                  'email', 'name', 'is_admin', 'token']
 
     def get_token(self, obj):
         token = RefreshToken.for_user(obj)
@@ -74,7 +75,8 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def get_shippingAddress(self, obj):
         try:
-            address = ShippingAddressSerializer(obj.shippingAddress, many=False).data
+            address = ShippingAddressSerializer(
+                obj.shippingAddress, many=False).data
         except:
             address = False
         return address
