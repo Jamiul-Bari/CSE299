@@ -1,19 +1,19 @@
-import React, {useState, useEffect} from 'react';
-import {Button, Row, Col, ListGroup, Image, Card} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Message from '../components/Message';
 import CheckoutStages from '../components/CheckoutStages';
 
-import {create_order} from '../actions/OrderActions'
+import { create_order } from '../actions/OrderActions'
 
-import {ORDER_CREATE_RESET} from '../constants/OrderConstants'
+import { ORDER_CREATE_RESET } from '../constants/OrderConstants'
 
-function PlaceOrderPage({history}) {
+function PlaceOrderPage({ history }) {
 
     const orderCreate = useSelector(state => state.orderCreate);
-    const {order, error, success} = orderCreate;
+    const { order, error, success } = orderCreate;
 
     const cart = useSelector(state => state.cart);
 
@@ -54,7 +54,7 @@ function PlaceOrderPage({history}) {
 
     return (
         <div>
-            <CheckoutStages stage1 stage2 stage3 stage4/>
+            <CheckoutStages stage1 stage2 stage3 stage4 />
             <Row>
                 <Col md={8}>
                     <ListGroup variant='flush'>
@@ -97,7 +97,7 @@ function PlaceOrderPage({history}) {
                                                                     src={grocery.image}
                                                                     alt={grocery.name}
                                                                     fluid
-                                                                    rounded/>
+                                                                    rounded />
                                                             </Col>
 
                                                             <Col>

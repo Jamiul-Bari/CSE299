@@ -1,17 +1,17 @@
-import React, {useState, useEffect} from 'react';
-import {Button, Form, Col} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { Button, Form, Col } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 
 import FormContainer from '../components/FormContainer';
 import CheckoutStages from '../components/CheckoutStages';
 
-import {savePaymentMethod} from '../actions/CartActions';
+import { savePaymentMethod } from '../actions/CartActions';
 
 
-function PaymentPage({history}) {
+function PaymentPage({ history }) {
 
     const cart = useSelector(state => state.cart);
-    const {shipping_address} = cart;
+    const { shipping_address } = cart;
 
     const dispatch = useDispatch();
 
@@ -30,7 +30,7 @@ function PaymentPage({history}) {
 
     return (
         <FormContainer>
-            <CheckoutStages stage1 stage2 stage3/>
+            <CheckoutStages stage1 stage2 stage3 />
 
             <Form onSubmit={submitHandler}>
 

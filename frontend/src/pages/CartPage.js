@@ -1,12 +1,12 @@
-import React, {useEffect} from "react";
-import {Link} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
-import {Row, Col, ListGroup, Image, Form, Button, Card} from 'react-bootstrap';
+import React, { useEffect } from "react";
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
 
 import Message from '../components/Message';
-import {addToCart, removeFromCart} from '../actions/CartActions';
+import { addToCart, removeFromCart } from '../actions/CartActions';
 
-function CartPage({match, location, history}) {
+function CartPage({ match, location, history }) {
     const grocery_item_id = match.params.id;
     const qty = location.search
         ? Number(location.search.split('=')[1])
@@ -15,7 +15,7 @@ function CartPage({match, location, history}) {
     const dispatch = useDispatch();
 
     const cart = useSelector(state => state.cart)
-    const {grocery_in_cart} = cart;
+    const { grocery_in_cart } = cart;
 
     useEffect(() => {
         if (grocery_item_id) {
@@ -26,7 +26,7 @@ function CartPage({match, location, history}) {
     const removeFromCartHandler = (id) => {
         dispatch(removeFromCart(id));
     }
-    
+
     const checkout = () => {
         history.push('/login?redirect=checkout')
     }
@@ -47,7 +47,7 @@ function CartPage({match, location, history}) {
                                     <ListGroup.Item key={grocery.grocery_item}>
                                         <Row>
                                             <Col md={2}>
-                                                <Image src={grocery.image} alt={grocery.name} fluid rounded/>
+                                                <Image src={grocery.image} alt={grocery.name} fluid rounded />
                                             </Col>
 
                                             <Col md={3}>
@@ -67,7 +67,7 @@ function CartPage({match, location, history}) {
                                                     {
                                                         [...Array(grocery.countInStock).keys()].map((numberOfItem) => (
                                                             <option key={numberOfItem + 1}
-                                                                    value={numberOfItem + 1}>
+                                                                value={numberOfItem + 1}>
                                                                 {numberOfItem + 1}
                                                             </option>
                                                         ))

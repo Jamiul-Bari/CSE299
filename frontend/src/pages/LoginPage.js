@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
-import {Button, Form, Row, Col} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Form, Row, Col } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux'
 
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
 
-import {login} from '../actions/UserActions';
+import { login } from '../actions/UserActions';
 
-function LoginPage({location, history}) {
+function LoginPage({ location, history }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -18,7 +18,7 @@ function LoginPage({location, history}) {
     const redirect = location.search ? location.search.split('=')[1] : '/';
 
     const userLogin = useSelector(state => state.userLogin);
-    const {error, loading, user_information} = userLogin;
+    const { error, loading, user_information } = userLogin;
 
     useEffect(() => {
         if (user_information) {
@@ -35,7 +35,7 @@ function LoginPage({location, history}) {
         <FormContainer>
             <h1>Sign In</h1>
             {error && <Message variant='danger'>{error}</Message>}
-            {loading && <Loader/>}
+            {loading && <Loader />}
 
             <Form onSubmit={submitHandler}>
 

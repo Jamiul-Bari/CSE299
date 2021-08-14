@@ -1,13 +1,13 @@
-import {createStore, combineReducers, applyMiddleware} from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import {composeWithDevTools} from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import {
     GroceryItemListReducer,
     GroceryItemDetailsReducer
 } from './reducers/GroceryItemReducers';
 
-import {CartReducer} from './reducers/CartReducers';
+import { CartReducer } from './reducers/CartReducers';
 
 import {
     UserLoginReducer,
@@ -16,7 +16,7 @@ import {
     UserUpdateProfileReducer
 } from './reducers/UserReducers';
 
-import {OrderCreateReducer} from './reducers/OrderReducers';
+import { OrderCreateReducer } from './reducers/OrderReducers';
 
 const reducer = combineReducers({
     groceryItemList: GroceryItemListReducer,
@@ -47,7 +47,7 @@ const initialState = {
         grocery_in_cart: grocery_in_cart_from_storage,
         shipping_address: shipping_address_from_storage
     },
-    userLogin: {user_information: user_information_from_storage}
+    userLogin: { user_information: user_information_from_storage }
 }
 
 const middleware = [thunk]

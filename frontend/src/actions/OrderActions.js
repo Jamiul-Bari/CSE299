@@ -5,7 +5,7 @@ import {
     ORDER_CREATE_FAIL,
 } from '../constants/OrderConstants';
 
-import {CART_CLEAR_ITEMS} from '../constants/CartConstants';
+import { CART_CLEAR_ITEMS } from '../constants/CartConstants';
 
 export const create_order = (order) => async (dispatch, getState) => {
     try {
@@ -14,7 +14,7 @@ export const create_order = (order) => async (dispatch, getState) => {
         });
 
         const {
-            userLogin: {user_information}
+            userLogin: { user_information }
         } = getState()
 
         const config = {
@@ -24,7 +24,7 @@ export const create_order = (order) => async (dispatch, getState) => {
             }
         }
 
-        const {data} = await axios.post(
+        const { data } = await axios.post(
             `/drf/orders/add/`,
             order,
             config
