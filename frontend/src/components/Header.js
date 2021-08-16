@@ -1,14 +1,14 @@
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {Navbar, Nav, Container, Row, NavDropdown} from "react-bootstrap";
-import {LinkContainer} from 'react-router-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navbar, Nav, Container, Row, NavDropdown } from "react-bootstrap";
+import { LinkContainer } from 'react-router-bootstrap';
 
-import {logout} from '../actions/UserActions';
+import { logout } from '../actions/UserActions';
 
 function Header() {
 
     const userLogin = useSelector(state => state.userLogin);
-    const {user_information} = userLogin;
+    const { user_information } = userLogin;
 
     const dispatch = useDispatch();
 
@@ -24,7 +24,7 @@ function Header() {
                         <Navbar.Brand>tukitak-E</Navbar.Brand>
                     </LinkContainer>
 
-                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
 
                         <Nav className="mr-auto">
@@ -41,7 +41,7 @@ function Header() {
                                     </LinkContainer>
 
                                     <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
-                                    
+
                                 </NavDropdown>
                             ) : (
                                 <LinkContainer to="/login">
