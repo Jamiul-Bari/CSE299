@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import CheckoutStages from '../components/CheckoutStages';
 
-import { create_order } from '../actions/OrderActions'
+import { createOrder } from '../actions/OrderActions'
 
 import { ORDER_CREATE_RESET } from '../constants/OrderConstants'
 
@@ -41,7 +41,7 @@ function PlaceOrderPage({ history }) {
     }, [success, history]);
 
     const placeOrder = () => {
-        dispatch(create_order({
+        dispatch(createOrder({
             order_items: cart.grocery_in_cart,
             shipping_address: cart.shipping_address,
             payment_method: cart.payment_method,
