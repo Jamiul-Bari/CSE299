@@ -4,57 +4,39 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Message from '../components/Message';
-import CheckoutStages from '../components/CheckoutStages';
+import Loader from '../components/Loader';
 
-import { createOrder } from '../actions/OrderActions'
+import { getOrderDetails } from '../actions/OrderActions';
 
-import { ORDER_CREATE_RESET } from '../constants/OrderConstants'
 
-function PlaceOrderPage({ history }) {
-
-    const orderCreate = useSelector(state => state.orderCreate);
-    const { order, error, success } = orderCreate;
-
-    const cart = useSelector(state => state.cart);
-
+function OrderPage({ match }) {
+    const order_id = match.params.id;
     const dispatch = useDispatch();
 
-    cart.grocery_items_price = cart.grocery_in_cart.reduce((acc, grocery) => acc + (grocery.price * grocery.qty), 0).toFixed(2);
-    cart.delivery_charge = (cart.grocery_items_price > 4000 ? 0 : 50).toFixed(2);
-    cart.vat = Number((0.15) * cart.grocery_items_price).toFixed(2);
+    const orderDetails = useSelector(state => state.orderDetails);
+    const { order, error, loading } = orderDetails;
 
-    cart.total_price = (Number(cart.grocery_items_price) + Number(cart.delivery_charge) + Number(cart.vat)).toFixed(2);
-
-    // If a payment method is not selected then redirect to /payment
-    if (!cart.payment_method) {
-        history.push('/payment');
+    if (!loading && !error) {
+        order.order_items_price = order.order_items.reduce((acc, grocery) => acc + (grocery.price * grocery.qty), 0).toFixed(2);
     }
+
 
     useEffect(() => {
-        if (success) {
-            history.push(`/order/${order._id}`);
-            dispatch({
-                type: ORDER_CREATE_RESET
-            });
-            // clear the order items if the order is successfully placed
+        // If there is no order or the order id is not here yet, dispatch
+        if (!order || order._id !== Number(order_id)) {
+            dispatch(getOrderDetails(order_id))
         }
-    }, [success, history]);
 
-    const placeOrder = () => {
-        dispatch(createOrder({
-            order_items: cart.grocery_in_cart,
-            shipping_address: cart.shipping_address,
-            payment_method: cart.payment_method,
-            grocery_items_price: cart.grocery_items_price,
-            delivery_charge: cart.delivery_charge,
-            vat: cart.vat,
-            total_price: cart.total_price
-        }));
-    }
+    }, [dispatch, order, order_id]);
+    // order from the serializer
 
-    return (
+    return loading ? (
+        <Loader />
+    ) : error ? (
+        <Message variant='danger'>{error}</Message>
+    ) : (
         <div>
-            <CheckoutStages stage1 stage2 stage3 stage4 />
+            <h1>Order: # {order._id}</h1>
             <Row>
                 <Col md={8}>
                     <ListGroup variant='flush'>
@@ -62,11 +44,27 @@ function PlaceOrderPage({ history }) {
                             <h2>Shipping</h2>
 
                             <p>
-                                <strong>Shipping: </strong>
-                                {cart.shipping_address.address}, {cart.shipping_address.city}
-                                {' - '}
-                                {cart.shipping_address.postalCode}
+                                <strong>Name: </strong>
+                                {order.user.name}
                             </p>
+
+                            <p>
+                                <strong>Email: </strong>
+                                <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
+                            </p>
+
+                            <p>
+                                <strong>Shipping: </strong>
+                                {order.shipping_address.address}, {order.shipping_address.city}
+                                {' - '}
+                                {order.shipping_address.postalCode}
+                            </p>
+
+                            {order.isDelivered ? (
+                                <Message variant='success'>Delivered on {order.deliveredAt}</Message>
+                            ) : (
+                                <Message variant='warning'>Not Delivered</Message>
+                            )}
                         </ListGroup.Item>
 
                         <ListGroup.Item>
@@ -74,22 +72,28 @@ function PlaceOrderPage({ history }) {
 
                             <p>
                                 <strong>Method: </strong>
-                                {cart.payment_method}
+                                {order.payment_method}
                             </p>
+
+                            {order.isPaid ? (
+                                <Message variant='success'>Paid on {order.paidAt}</Message>
+                            ) : (
+                                <Message variant='warning'>Not Paid</Message>
+                            )}
                         </ListGroup.Item>
 
                         <ListGroup.Item>
                             <h2>Order Items</h2>
 
                             {
-                                cart.grocery_in_cart.length === 0
+                                order.order_items.length === 0
                                     ? <Message variant='info'>
-                                        Your cart is empty
+                                        There is no Order
                                     </Message>
                                     : (
                                         <ListGroup variant='flush'>
                                             {
-                                                cart.grocery_in_cart.map((grocery, index) => (
+                                                order.order_items.map((grocery, index) => (
                                                     <ListGroup.Item key={index}>
                                                         <Row>
                                                             <Col md={1}>
@@ -130,46 +134,29 @@ function PlaceOrderPage({ history }) {
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Grocery Items: </Col>
-                                    <Col>৳ {cart.grocery_items_price}  </Col>
+                                    <Col>৳ {order.order_items_price}  </Col>
                                 </Row>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Shipping: </Col>
-                                    <Col>৳ {cart.delivery_charge}  </Col>
+                                    <Col>৳ {order.delivery_charge}  </Col>
                                 </Row>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
                                 <Row>
                                     <Col>VAT: </Col>
-                                    <Col>৳ {cart.vat}  </Col>
+                                    <Col>৳ {order.vat}  </Col>
                                 </Row>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Total: </Col>
-                                    <Col>৳ {cart.total_price}  </Col>
+                                    <Col>৳ {order.total_price}  </Col>
                                 </Row>
-                            </ListGroup.Item>
-
-                            <ListGroup.Item>
-                                {
-                                    error && <Message variant='danger'>{error}</Message>
-                                }
-                            </ListGroup.Item>
-
-                            <ListGroup.Item>
-                                <Button
-                                    type='button'
-                                    className='btn-block'
-                                    disabled={cart.grocery_in_cart === 0}
-                                    onClick={placeOrder}
-                                >
-                                    Place Order
-                                </Button>
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
@@ -179,4 +166,4 @@ function PlaceOrderPage({ history }) {
     )
 }
 
-export default PlaceOrderPage;
+export default OrderPage;

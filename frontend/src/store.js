@@ -16,7 +16,11 @@ import {
     UserUpdateProfileReducer
 } from './reducers/UserReducers';
 
-import { OrderCreateReducer } from './reducers/OrderReducers';
+import {
+    OrderCreateReducer,
+    OrderDetailsReducer,
+    OrderPayReducer
+} from './reducers/OrderReducers';
 
 const reducer = combineReducers({
     groceryItemList: GroceryItemListReducer,
@@ -26,7 +30,9 @@ const reducer = combineReducers({
     userRegister: UserRegisterReducer,
     userDetails: UserDetailsReducer,
     userUpdateProfile: UserUpdateProfileReducer,
-    orderCreate: OrderCreateReducer
+    orderCreate: OrderCreateReducer,
+    orderDetails: OrderDetailsReducer,
+    orderPay: OrderPayReducer,
 })
 
 // Loading data from the LocalStorage
