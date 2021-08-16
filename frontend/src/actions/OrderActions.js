@@ -12,6 +12,12 @@ import {
     ORDER_PAY_SUCCESS,
     ORDER_PAY_FAIL,
     ORDER_PAY_RESET,
+
+    LIST_MY_ORDER_REQUEST,
+    LIST_MY_ORDER_SUCCESS,
+    LIST_MY_ORDER_FAIL,
+    LIST_MY_ORDER_RESET,
+
 } from '../constants/OrderConstants';
 
 import { CART_CLEAR_ITEMS } from '../constants/CartConstants';
@@ -131,6 +137,45 @@ export const payOrder = (id, paymentResultFromSSL) => async (dispatch, getState)
     } catch (error) {
         dispatch({
             type: ORDER_PAY_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message
+        });
+    }
+}
+
+// id not required as parameter since logged in user is the one
+export const listMyOrders = () => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: LIST_MY_ORDER_REQUEST
+        });
+
+        const {
+            userLogin: { user_information }
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${user_information.token}`
+            }
+        }
+
+        const { data } = await axios.get(
+            `/drf/orders/my-orders/`,
+            config
+        );
+
+        dispatch({
+            type: LIST_MY_ORDER_SUCCESS,
+            payload: data
+        });
+
+
+    } catch (error) {
+        dispatch({
+            type: LIST_MY_ORDER_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message

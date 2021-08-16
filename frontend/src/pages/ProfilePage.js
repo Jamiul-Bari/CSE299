@@ -7,6 +7,7 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 
 import { get_user_details, update_user_profile } from '../actions/UserActions';
+import { listMyOrders } from '../actions/OrderActions';
 
 import { USER_UPDATE_PROFILE_RESET } from '../constants/UserConstants'
 
@@ -37,6 +38,7 @@ function ProfilePage({ history }) {
             if (!user || !user.name || success) {
                 dispatch({ type: USER_UPDATE_PROFILE_RESET });
                 dispatch(get_user_details('profile')) // profile => id
+                dispatch(listMyOrders());
             } else {
                 setName(user.name);
                 setEmail(user.email);
