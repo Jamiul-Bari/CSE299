@@ -8,9 +8,11 @@ from core.models import GroceryItem, Order, OrderItem, ShippingAddress
 from core.grocery_items import grocery_items
 from core.serializers import GroceryItemSerializer, OrderSerializer
 
+from datetime import datetime
+
 
 @api_view(['POST'])
-@permission_classes(['IsAuthenticated'])
+@permission_classes([IsAuthenticated])
 def add_order_items(request):
     user = request.user
     data = request.data
@@ -49,16 +51,16 @@ def add_order_items(request):
             )
 
             #     Update item stock
-            grocery_item.countInStock -=item.qty
+            grocery_item.countInStock -= item.qty
             grocery_item.save()
 
     serializer = OrderSerializer(order, many=True)
     return Response('order')
 
-@api_view(['GET'])
-@permission_classes(['IsAuthenticated'])
-def get_order_by_id(request, pk):
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_order_by_id(request, pk):
     user = request.user
 
     try:
@@ -70,3 +72,14 @@ def get_order_by_id(request, pk):
             Response({'detail': 'Not authorized to view this order'}, status=status.HTTP_400_BAD_REQUEST)
     except:
         return Response({'detail': 'Order does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_order_to_paid(request, pk):
+    order = Order.objects.get(_id=pk)
+
+    order.isPaid = True
+    order.paidAt = datetime.now()
+    order.save()
+    return Response('Payment for this order is complete')
