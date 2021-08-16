@@ -24,13 +24,13 @@ import {
 export const UserLoginReducer = (state = {}, action) => {
     switch (action.type) {
         case USER_LOGIN_REQUEST:
-            return {loading: true}
+            return { loading: true }
 
         case USER_LOGIN_SUCCESS:
-            return {loading: false, user_information: action.payload}
+            return { loading: false, user_information: action.payload }
 
         case USER_LOGIN_FAIL:
-            return {loading: false, error: action.payload}
+            return { loading: false, error: action.payload }
 
         case USER_LOGOUT:
             return {}
@@ -43,13 +43,13 @@ export const UserLoginReducer = (state = {}, action) => {
 export const UserRegisterReducer = (state = {}, action) => {
     switch (action.type) {
         case USER_REGISTER_REQUEST:
-            return {loading: true}
+            return { loading: true }
 
         case USER_REGISTER_SUCCESS:
-            return {loading: false, user_information: action.payload}
+            return { loading: false, user_information: action.payload }
 
         case USER_REGISTER_FAIL:
-            return {loading: false, error: action.payload}
+            return { loading: false, error: action.payload }
 
         case USER_LOGOUT:
             return {}
@@ -59,35 +59,35 @@ export const UserRegisterReducer = (state = {}, action) => {
     }
 }
 
-export const UserDetailsReducer = (state = {user: {}}, action) => {
+export const UserDetailsReducer = (state = { user: {} }, action) => {
     switch (action.type) {
         case USER_DETAILS_REQUEST:
-            return {...state, loading: true}
+            return { ...state, loading: true }
 
         case USER_DETAILS_SUCCESS:
-            return {loading: false, user: action.payload}
+            return { loading: false, user: action.payload }
 
         case USER_DETAILS_FAIL:
-            return {loading: false, error: action.payload}
+            return { loading: false, error: action.payload }
 
         case USER_DETAILS_RESET:
-            return {user: {}}
+            return { user: {} }
 
         default:
             return state
     }
 }
 
-export const UserUpdateProfileReducer = (state = {user: {}}, action) => {
+export const UserUpdateProfileReducer = (state = { user: {} }, action) => {
     switch (action.type) {
         case USER_UPDATE_PROFILE_REQUEST:
-            return {loading: true}
+            return { loading: true }
 
         case USER_UPDATE_PROFILE_SUCCESS:
-            return {loading: false, success: true, user_information: action.payload}
+            return { loading: false, success: true, user_information: action.payload }
 
         case USER_UPDATE_PROFILE_FAIL:
-            return {loading: false, error: action.payload}
+            return { loading: false, error: action.payload }
 
         case USER_UPDATE_PROFILE_RESET:
             return {}

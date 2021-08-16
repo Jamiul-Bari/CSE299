@@ -35,9 +35,9 @@ export const login = (email, password) => async (dispatch) => {
             }
         }
 
-        const {data} = await axios.post(
+        const { data } = await axios.post(
             '/drf/users/login/',
-            {'username': email, 'password': password},
+            { 'username': email, 'password': password },
             config
         );
 
@@ -61,8 +61,8 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => (dispatch) => {
     localStorage.removeItem('user_information');
 
-    dispatch({type: USER_LOGOUT});
-    dispatch({type: USER_DETAILS_RESET});
+    dispatch({ type: USER_LOGOUT });
+    dispatch({ type: USER_DETAILS_RESET });
 }
 
 export const register = (name, email, password) => async (dispatch) => {
@@ -77,9 +77,9 @@ export const register = (name, email, password) => async (dispatch) => {
             }
         }
 
-        const {data} = await axios.post(
+        const { data } = await axios.post(
             '/drf/users/register/',
-            {'name': name, 'email': email, 'password': password},
+            { 'name': name, 'email': email, 'password': password },
             config
         );
 
@@ -112,7 +112,7 @@ export const get_user_details = (id) => async (dispatch, getState) => {
         });
 
         const {
-            userLogin: {user_information}
+            userLogin: { user_information }
         } = getState()
 
         const config = {
@@ -122,7 +122,7 @@ export const get_user_details = (id) => async (dispatch, getState) => {
             }
         }
 
-        const {data} = await axios.get(
+        const { data } = await axios.get(
             `/drf/users/${id}/`,
             config
         );
@@ -149,7 +149,7 @@ export const update_user_profile = (user) => async (dispatch, getState) => {
         });
 
         const {
-            userLogin: {user_information}
+            userLogin: { user_information }
         } = getState()
 
         const config = {
@@ -159,7 +159,7 @@ export const update_user_profile = (user) => async (dispatch, getState) => {
             }
         }
 
-        const {data} = await axios.put(
+        const { data } = await axios.put(
             `/drf/users/profile/update/`,
             user,
             config

@@ -1,17 +1,17 @@
-import React, {useState, useEffect} from 'react';
-import {Button, Form} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { Button, Form } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 
 import FormContainer from '../components/FormContainer';
 import CheckoutStages from '../components/CheckoutStages';
 
-import {saveShippingAddress} from '../actions/CartActions';
+import { saveShippingAddress } from '../actions/CartActions';
 
 
-function CheckoutPage({history}) {
+function CheckoutPage({ history }) {
 
     const cart = useSelector(state => state.cart);
-    const {shipping_address} = cart;
+    const { shipping_address } = cart;
 
     const dispatch = useDispatch();
 
@@ -21,7 +21,7 @@ function CheckoutPage({history}) {
 
     const submitHandler = (e) => {
         e.preventDefault()
-        dispatch(saveShippingAddress({address, city, postal_code}));
+        dispatch(saveShippingAddress({ address, city, postal_code }));
         history.push('/payment');
     }
 
