@@ -27,7 +27,7 @@ function OrderPage({ match }) {
             dispatch(getOrderDetails(order_id))
         }
 
-    }, [order, order_id]);
+    }, [dispatch, order, order_id]);
     // order from the serializer
 
     return loading ? (
