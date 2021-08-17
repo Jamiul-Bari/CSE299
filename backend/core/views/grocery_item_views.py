@@ -21,3 +21,11 @@ def get_grocery_item(request, pk):
     grocery_item = GroceryItem.objects.get(_id=pk)
     serializer = GroceryItemSerializer(grocery_item, many=False)
     return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminUser])
+def delete_grocery_item(request, pk):
+    grocery_item = GroceryItem.objects.get(_id=pk)
+    grocery_item.delete()
+    return Response('Grocery Item Deleted')
