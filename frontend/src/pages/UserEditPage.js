@@ -7,7 +7,9 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
 
-import { get_user_details } from '../actions/UserActions';
+import { get_user_details, update_user } from '../actions/UserActions';
+
+import { USER_UPDATE_RESET } from '../constants/UserConstants'
 
 function UserEditPage({ match, history }) {
 
@@ -22,19 +24,35 @@ function UserEditPage({ match, history }) {
     const userDetails = useSelector(state => state.userDetails)
     const { error, loading, user } = userDetails
 
+    const userUpdate = useSelector(state => state.userUpdate)
+    const {
+        error: errorUpdate,
+        loading: loadingUpdate,
+        success: successUpdate,
+    } = userUpdate
+
     useEffect(() => {
-        if (!user.name || user._id !== Number(user_id)) {
-            dispatch(get_user_details(user_id));
+
+        if (successUpdate) {
+            dispatch({ type: USER_UPDATE_RESET })
+            history.push('/admin/user-list')
         }
         else {
-            setName(user.name);
-            setEmail(user.email);
-            setIsAdmin(user.isAdmin);
+            if (!user.name || user._id !== Number(user_id)) {
+                dispatch(get_user_details(user_id));
+            }
+            else {
+                setName(user.name);
+                setEmail(user.email);
+                setIsAdmin(user.isAdmin);
+            }
         }
-    }, [user, user_id])
+
+    }, [user, user_id, successUpdate, history])
 
     const submitHandler = (e) => {
         e.preventDefault();
+        dispatch(update_user({ _id: user._id, name, email, isAdmin }));
     }
 
     return (
@@ -46,6 +64,8 @@ function UserEditPage({ match, history }) {
 
             <FormContainer>
                 <h1>Edit User</h1>
+                {loadingUpdate && <Loader />}
+                {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
 
                 {
                     loading ? <Loader />
