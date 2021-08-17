@@ -16,6 +16,7 @@ import PlaceOrderPage from './pages/PlaceOrderPage';
 import OrderPage from './pages/OrderPage';
 import UserListPage from './pages/UserListPage';
 import UserEditPage from './pages/UserEditPage';
+import GroceryItemListPage from './pages/GroceryItemListPage';
 
 function App() {
     return (
@@ -37,6 +38,8 @@ function App() {
 
                     <Route path='/admin/user-list' component={UserListPage} />
                     <Route path='/admin/user/:id/edit' component={UserEditPage} />
+
+                    <Route path='/admin/grocery-item' component={GroceryItemListPage} />
                 </Container>
             </main>
 
