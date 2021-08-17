@@ -14,6 +14,7 @@ import CheckoutPage from './pages/CheckoutPage';
 import PaymentPage from './pages/PaymentPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import OrderPage from './pages/OrderPage';
+import UserListPage from './pages/UserListPage';
 
 function App() {
     return (
@@ -32,6 +33,8 @@ function App() {
                     <Route path='/payment' component={PaymentPage} />
                     <Route path='/grocery-item/:id' component={GroceryItemPage} />
                     <Route path='/cart/:id?' component={CartPage} />
+
+                    <Route path='/admin/user-list' component={UserListPage} />
                 </Container>
             </main>
 
