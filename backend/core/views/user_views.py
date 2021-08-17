@@ -88,3 +88,11 @@ def update_user_profile(request):
     user.save()
 
     return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminUser])
+def delete_user(request, pk):
+    user_to_delete = User.objects.get(id=pk)
+    user_to_delete.delete()
+    return Response('User was deleted')
