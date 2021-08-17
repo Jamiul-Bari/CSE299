@@ -4,7 +4,8 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import {
     GroceryItemListReducer,
-    GroceryItemDetailsReducer
+    GroceryItemDetailsReducer,
+    GroceryItemDeleteReducer,
 } from './reducers/GroceryItemReducers';
 
 import { CartReducer } from './reducers/CartReducers';
@@ -29,6 +30,7 @@ import {
 const reducer = combineReducers({
     groceryItemList: GroceryItemListReducer,
     groceryItemDetails: GroceryItemDetailsReducer,
+    groceryItemDelete: GroceryItemDeleteReducer,
     cart: CartReducer,
 
     userLogin: UserLoginReducer,

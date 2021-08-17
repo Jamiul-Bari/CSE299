@@ -6,7 +6,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
-import { listGroceryItems } from '../actions/GroceryItemActions';
+import {
+    listGroceryItems,
+    deleteGroceryItem,
+
+} from '../actions/GroceryItemActions';
 
 function GroceryItemListPage({ match, history }) {
 
@@ -14,6 +18,9 @@ function GroceryItemListPage({ match, history }) {
 
     const groceryItemList = useSelector(state => state.groceryItemList);
     const { loading, error, grocery_items } = groceryItemList;
+
+    const groceryItemDelete = useSelector(state => state.groceryItemDelete);
+    const { loading: loadingDelete, error: errorDelete, success: successDelete } = groceryItemDelete;
 
     const userLogin = useSelector(state => state.userLogin);
     const { user_information } = userLogin;
@@ -25,11 +32,11 @@ function GroceryItemListPage({ match, history }) {
         else {
             history.push('/login');
         }
-    }, [dispatch, history, user_information]);
+    }, [dispatch, history, user_information, successDelete]);
 
     const deleteHandler = (id) => {
         if (window.confirm("Are you sure you want to delete this grocery item?")) {
-            // dispatch(delete_user(id)); delete grocery item
+            dispatch(deleteGroceryItem(id));
         }
     }
 
@@ -49,6 +56,9 @@ function GroceryItemListPage({ match, history }) {
                     </Button>
                 </Col>
             </Row>
+
+            {loadingDelete && <Loader />}
+            {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
 
             {
                 loading ? <Loader />
