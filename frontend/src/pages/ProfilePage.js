@@ -39,7 +39,7 @@ function ProfilePage({ history }) {
         if (!user_information) {
             history.push('/login')
         } else {
-            if (!user || !user.name || success) {
+            if (!user || !user.name || success || user_information._id !== user._id) {
                 dispatch({ type: USER_UPDATE_PROFILE_RESET });
                 dispatch(get_user_details('profile')) // profile => id
                 dispatch(listMyOrders());
