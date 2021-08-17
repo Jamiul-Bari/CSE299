@@ -22,6 +22,8 @@ import {
     USER_UPDATE_PROFILE_RESET,
 } from '../constants/UserConstants';
 
+import { LIST_MY_ORDER_RESET } from '../constants/OrderConstants'
+
 
 export const login = (email, password) => async (dispatch) => {
     try {
@@ -63,6 +65,7 @@ export const logout = () => (dispatch) => {
 
     dispatch({ type: USER_LOGOUT });
     dispatch({ type: USER_DETAILS_RESET });
+    dispatch({ type: LIST_MY_ORDER_RESET });
 }
 
 export const register = (name, email, password) => async (dispatch) => {
