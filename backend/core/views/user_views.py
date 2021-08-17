@@ -59,6 +59,35 @@ def get_users(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAdminUser])
+def get_user_by_id(request, pk):
+    user = User.objects.get(id=pk)
+    serializer = UserSerializer(user, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_user(request, pk):
+    # When a user logs in using default Django authentication. You can get the authenticated user from request.user
+    # But here it will get from the token. Then it will give user from the token.
+    user = User.objects.get(id=pk)
+
+    data = request.data
+
+    user.first_name = data['name']
+    user.username = data['email']
+    user.email = data['email']
+    user.is_staff = data['isAdimin']
+
+    user.save()
+
+    serializer = UserSerializer(user, many=False)
+
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_profile(request):
     # When a user logs in using default Django authentication. You can get the authenticated user from request.user
