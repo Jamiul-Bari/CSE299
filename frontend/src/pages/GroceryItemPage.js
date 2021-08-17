@@ -1,20 +1,20 @@
-import React, {useState, useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {Link} from 'react-router-dom'
-import {Row, Col, Image, ListGroup, Button, Card, Form} from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom'
+import { Row, Col, Image, ListGroup, Button, Card, Form } from 'react-bootstrap';
 
 import Rating from '../components/Rating';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import {listGroceryItemDetails} from '../actions/GroceryItemActions';
+import { listGroceryItemDetails } from '../actions/GroceryItemActions';
 
-function GroceryItemPage({match, history}) {
+function GroceryItemPage({ match, history }) {
 
     const [qty, setQty] = useState(1);
 
     const dispatch = useDispatch();
     const groceryItemDetails = useSelector(state => state.groceryItemDetails);
-    const {loading, error, grocery_item} = groceryItemDetails;
+    const { loading, error, grocery_item } = groceryItemDetails;
 
     useEffect(() => {
 
@@ -31,12 +31,12 @@ function GroceryItemPage({match, history}) {
         <div>
             <Link to='/' className='btn btn-light my-3'>Back</Link>
             {
-                loading ? <Loader/>
+                loading ? <Loader />
                     : error ? <Message variant='danger'>{error}</Message>
                         : (
                             <Row>
                                 <Col md={6}>
-                                    <Image src={grocery_item.image} alt={grocery_item.name} fluid/>
+                                    <Image src={grocery_item.image} alt={grocery_item.name} fluid />
                                 </Col>
 
                                 <Col md={3}>
@@ -47,7 +47,7 @@ function GroceryItemPage({match, history}) {
 
                                         <ListGroup.Item>
                                             <Rating value={grocery_item.rating} text={`${grocery_item.numReviews} reviews`}
-                                                    color={'#f8e625'}/>
+                                                color={'#f8e625'} />
                                         </ListGroup.Item>
 
                                         <ListGroup.Item>
@@ -99,7 +99,7 @@ function GroceryItemPage({match, history}) {
                                                                     {
                                                                         [...Array(grocery_item.countInStock).keys()].map((numberOfItem) => (
                                                                             <option key={numberOfItem + 1}
-                                                                                    value={numberOfItem + 1}>
+                                                                                value={numberOfItem + 1}>
                                                                                 {numberOfItem + 1}
                                                                             </option>
                                                                         ))

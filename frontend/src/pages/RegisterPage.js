@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
-import {Button, Form, Row, Col} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Form, Row, Col } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux'
 
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
 
-import {register} from '../actions/UserActions';
+import { register } from '../actions/UserActions';
 
-function RegisterPage({location, history}) {
+function RegisterPage({ location, history }) {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -22,7 +22,7 @@ function RegisterPage({location, history}) {
     const redirect = location.search ? location.search.split('=')[1] : '/'
 
     const userRegister = useSelector(state => state.userRegister)
-    const {error, loading, user_information} = userRegister
+    const { error, loading, user_information } = userRegister
 
     useEffect(() => {
         if (user_information) {
@@ -33,7 +33,7 @@ function RegisterPage({location, history}) {
     const submitHandler = (e) => {
         e.preventDefault();
 
-        if (password != confirmPassword) {
+        if (password !== confirmPassword) {
             setMessage('Passwords do not match');
         } else {
             dispatch(register(name, email, password));
@@ -45,7 +45,7 @@ function RegisterPage({location, history}) {
             <h1>Sign Up</h1>
             {message && <Message variant='danger'>{message}</Message>}
             {error && <Message variant='danger'>{error}</Message>}
-            {loading && <Loader/>}
+            {loading && <Loader />}
 
             <Form onSubmit={submitHandler}>
 
@@ -110,7 +110,7 @@ function RegisterPage({location, history}) {
             <Row className='py-3'>
                 <Col>
                     Already Have an Account? <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>Sign
-                    In</Link>
+                        In</Link>
                 </Col>
             </Row>
 

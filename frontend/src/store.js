@@ -1,34 +1,42 @@
-import {createStore, combineReducers, applyMiddleware} from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import {composeWithDevTools} from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import {
     GroceryItemListReducer,
     GroceryItemDetailsReducer
 } from './reducers/GroceryItemReducers';
 
-import {CartReducers} from './reducers/CartReducers';
+import { CartReducer } from './reducers/CartReducers';
 
 import {
     UserLoginReducer,
     UserRegisterReducer,
     UserDetailsReducer,
-    UserUpdateProfileReducer
+    UserUpdateProfileReducer,
+    UserListReducer,
 } from './reducers/UserReducers';
 
 import {
-    OrderCreateReducer
-} from './reducers/OrderReducers'
+    OrderCreateReducer,
+    OrderDetailsReducer,
+    OrderPayReducer,
+    ListMyOrderReducer,
+} from './reducers/OrderReducers';
 
 const reducer = combineReducers({
     groceryItemList: GroceryItemListReducer,
     groceryItemDetails: GroceryItemDetailsReducer,
-    cart: CartReducers,
+    cart: CartReducer,
     userLogin: UserLoginReducer,
     userRegister: UserRegisterReducer,
     userDetails: UserDetailsReducer,
     userUpdateProfile: UserUpdateProfileReducer,
-    orderCreate: OrderCreateReducer
+    usersList: UserListReducer,
+    orderCreate: OrderCreateReducer,
+    orderDetails: OrderDetailsReducer,
+    orderPay: OrderPayReducer,
+    listMyOrder: ListMyOrderReducer,
 })
 
 // Loading data from the LocalStorage
@@ -49,7 +57,7 @@ const initialState = {
         grocery_in_cart: grocery_in_cart_from_storage,
         shipping_address: shipping_address_from_storage
     },
-    userLogin: {user_information: user_information_from_storage}
+    userLogin: { user_information: user_information_from_storage }
 }
 
 const middleware = [thunk]

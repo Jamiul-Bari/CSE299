@@ -7,8 +7,8 @@ import {
     CART_SAVE_PAYMENT_METHOD
 } from '../constants/CartConstants';
 
-export const addToCart = (id, qty) => async(dispatch, getState) => {
-    const {data} = await axios.get(`/drf/grocery-items/${id}`)
+export const addToCart = (id, qty) => async (dispatch, getState) => {
+    const { data } = await axios.get(`/drf/grocery-items/${id}`)
 
     dispatch({
         type: CART_ADD_ITEM,
@@ -47,7 +47,7 @@ export const savePaymentMethod = (data) => (dispatch) => {
     dispatch({
         type: CART_SAVE_PAYMENT_METHOD,
         payload: data
-    })
+    });
 
     localStorage.setItem('payment_method', JSON.stringify(data));
 }

@@ -1,16 +1,18 @@
-import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
-import {Button, Form, Row, Col} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Form, Row, Col, Table } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+import { useDispatch, useSelector } from 'react-redux'
 
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
-import {get_user_details, update_user_profile} from '../actions/UserActions';
+import { get_user_details, update_user_profile } from '../actions/UserActions';
+import { listMyOrders } from '../actions/OrderActions';
 
-import {USER_UPDATE_PROFILE_RESET} from '../constants/UserConstants'
+import { USER_UPDATE_PROFILE_RESET } from '../constants/UserConstants'
 
-function ProfilePage({history}) {
+function ProfilePage({ history }) {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -22,21 +24,25 @@ function ProfilePage({history}) {
 
 
     const userDetails = useSelector(state => state.userDetails);
-    const {error, loading, user} = userDetails;
+    const { error, loading, user } = userDetails;
 
     const userLogin = useSelector(state => state.userLogin);
-    const {user_information} = userLogin;
+    const { user_information } = userLogin;
 
     const userUpdateProfile = useSelector(state => state.userUpdateProfile);
-    const {success} = userUpdateProfile;
+    const { success } = userUpdateProfile;
+
+    const listMyOrder = useSelector(state => state.listMyOrder);
+    const { loading: loadingOrders, error: errorOrders, orders } = listMyOrder;
 
     useEffect(() => {
         if (!user_information) {
             history.push('/login')
         } else {
             if (!user || !user.name || success) {
-                dispatch({type: USER_UPDATE_PROFILE_RESET});
-                dispatch(get_user_details('profile'))
+                dispatch({ type: USER_UPDATE_PROFILE_RESET });
+                dispatch(get_user_details('profile')) // profile => id
+                dispatch(listMyOrders());
             } else {
                 setName(user.name);
                 setEmail(user.email);
@@ -47,7 +53,7 @@ function ProfilePage({history}) {
     const submitHandler = (e) => {
         e.preventDefault();
 
-        if (password != confirmPassword) {
+        if (password !== confirmPassword) {
             setMessage('Passwords do not match');
         } else {
             dispatch(update_user_profile({
@@ -68,7 +74,7 @@ function ProfilePage({history}) {
                 <h1>Sign Up</h1>
                 {message && <Message variant='danger'>{message}</Message>}
                 {error && <Message variant='danger'>{error}</Message>}
-                {loading && <Loader/>}
+                {loading && <Loader />}
 
                 <Form onSubmit={submitHandler}>
 
@@ -131,6 +137,45 @@ function ProfilePage({history}) {
 
             <Col md={9}>
                 <h2>My Orders</h2>
+
+                {
+                    loadingOrders ? (
+                        <Loader />
+                    ) : errorOrders ? (
+                        <Message variant='danger'>{errorOrders}</Message>
+                    ) : (
+                        <Table striped responsive className='table-sm'>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Date</th>
+                                    <th>Total</th>
+                                    <th>Paid</th>
+                                    <th>Delivered</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {orders.map(order => (
+                                    <tr key={order._id}>
+                                        <td>{order._id}</td>
+                                        <td>{order.createdAt.substring(0, 10)}</td>
+                                        <td>$ {order.totalPrice}</td>
+                                        <td>{order.isPaid ? order.paidAtsubstring(0, 10) : (
+                                            <i className='fas fa-times' style={{ color: 'red' }}></i>
+                                        )}</td>
+                                        <td>
+                                            <LinkContainer to={`/order/${order._id}`}>
+                                                <Button className='btn-sm'>Details</Button>
+                                            </LinkContainer>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    )
+                }
+
             </Col>
         </Row>
     )

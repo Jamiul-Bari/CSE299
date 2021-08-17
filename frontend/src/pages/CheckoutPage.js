@@ -1,27 +1,27 @@
-import React, {useState, useEffect} from 'react';
-import {Button, Form} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { Button, Form } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 
 import FormContainer from '../components/FormContainer';
 import CheckoutStages from '../components/CheckoutStages';
 
-import {saveShippingAddress} from '../actions/CartActions';
+import { saveShippingAddress } from '../actions/CartActions';
 
 
-function CheckoutPage({history}) {
+function CheckoutPage({ history }) {
 
     const cart = useSelector(state => state.cart);
-    const {shipping_address} = cart;
+    const { shipping_address } = cart;
 
     const dispatch = useDispatch();
 
     const [address, setAddress] = useState(shipping_address.address);
     const [city, setCity] = useState(shipping_address.city);
-    const [postalCode, setPostalCode] = useState(shipping_address.postalCode);
+    const [postal_code, setPostalCode] = useState(shipping_address.postalCode);
 
     const submitHandler = (e) => {
         e.preventDefault()
-        dispatch(saveShippingAddress({address, city, postalCode}));
+        dispatch(saveShippingAddress({ address, city, postal_code }));
         history.push('/payment');
     }
 
@@ -63,7 +63,7 @@ function CheckoutPage({history}) {
                         required
                         type='text'
                         placeholder='Enter Postal Code'
-                        value={postalCode ? postalCode : ''}
+                        value={postal_code ? postal_code : ''}
                         onChange={(e) => setPostalCode(e.target.value)}
                     >
 

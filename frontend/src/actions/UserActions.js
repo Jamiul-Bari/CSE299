@@ -20,7 +20,14 @@ import {
     USER_UPDATE_PROFILE_SUCCESS,
     USER_UPDATE_PROFILE_FAIL,
     USER_UPDATE_PROFILE_RESET,
+
+    USER_LIST_REQUEST,
+    USER_LIST_SUCCESS,
+    USER_LIST_FAIL,
+    USER_LIST_RESET,
 } from '../constants/UserConstants';
+
+import { LIST_MY_ORDER_RESET } from '../constants/OrderConstants'
 
 
 export const login = (email, password) => async (dispatch) => {
@@ -30,14 +37,14 @@ export const login = (email, password) => async (dispatch) => {
         });
 
         const config = {
-            header: {
+            headers: {
                 'Content-type': 'application/json'
             }
         }
 
-        const {data} = await axios.post(
+        const { data } = await axios.post(
             '/drf/users/login/',
-            {'username': email, 'password': password},
+            { 'username': email, 'password': password },
             config
         );
 
@@ -61,8 +68,10 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => (dispatch) => {
     localStorage.removeItem('user_information');
 
-    dispatch({type: USER_LOGOUT});
-    dispatch({type: USER_DETAILS_RESET});
+    dispatch({ type: USER_LOGOUT });
+    dispatch({ type: USER_DETAILS_RESET });
+    dispatch({ type: LIST_MY_ORDER_RESET });
+    dispatch({ type: USER_LIST_RESET });
 }
 
 export const register = (name, email, password) => async (dispatch) => {
@@ -72,14 +81,14 @@ export const register = (name, email, password) => async (dispatch) => {
         });
 
         const config = {
-            header: {
+            headers: {
                 'Content-type': 'application/json'
             }
         }
 
-        const {data} = await axios.post(
+        const { data } = await axios.post(
             '/drf/users/register/',
-            {'name': name, 'email': email, 'password': password},
+            { 'name': name, 'email': email, 'password': password },
             config
         );
 
@@ -112,17 +121,17 @@ export const get_user_details = (id) => async (dispatch, getState) => {
         });
 
         const {
-            userLogin: {user_information}
+            userLogin: { user_information }
         } = getState()
 
         const config = {
-            header: {
+            headers: {
                 'Content-type': 'application/json',
                 Authorization: `Bearer ${user_information.token}`
             }
         }
 
-        const {data} = await axios.get(
+        const { data } = await axios.get(
             `/drf/users/${id}/`,
             config
         );
@@ -149,17 +158,17 @@ export const update_user_profile = (user) => async (dispatch, getState) => {
         });
 
         const {
-            userLogin: {user_information}
+            userLogin: { user_information }
         } = getState()
 
         const config = {
-            header: {
+            headers: {
                 'Content-type': 'application/json',
                 Authorization: `Bearer ${user_information.token}`
             }
         }
 
-        const {data} = await axios.put(
+        const { data } = await axios.put(
             `/drf/users/profile/update/`,
             user,
             config
@@ -170,6 +179,7 @@ export const update_user_profile = (user) => async (dispatch, getState) => {
             payload: data
         });
 
+        // Log the new user in
         dispatch({
             type: USER_LOGIN_SUCCESS,
             payload: data
@@ -180,6 +190,43 @@ export const update_user_profile = (user) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: USER_UPDATE_PROFILE_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message
+        });
+    }
+}
+
+export const list_users = () => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: USER_LIST_REQUEST
+        });
+
+        const {
+            userLogin: { user_information }
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${user_information.token}`
+            }
+        }
+
+        const { data } = await axios.get(
+            `/drf/users/`,
+            config
+        );
+
+        dispatch({
+            type: USER_LIST_SUCCESS,
+            payload: data
+        });
+
+    } catch (error) {
+        dispatch({
+            type: USER_LIST_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message

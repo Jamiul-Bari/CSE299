@@ -1,27 +1,27 @@
-import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
-import {Button, Form, Row, Col} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Form, Row, Col } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux'
 
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
 
-import {login} from '../actions/UserActions';
+import { login } from '../actions/UserActions';
 
-function LoginPage({location, history}) {
+function LoginPage({ location, history }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const dispatch = useDispatch();
 
-    const redirect = location.search ? location.search.split('=')[1] : '/'
+    const redirect = location.search ? location.search.split('=')[1] : '/';
 
-    const userLogin = useSelector(state => state.userLogin)
-    const {error, loading, user_information} = userLogin
+    const userLogin = useSelector(state => state.userLogin);
+    const { error, loading, user_information } = userLogin;
 
     useEffect(() => {
-        if(user_information) {
+        if (user_information) {
             history.push(redirect)
         }
     }, [history, user_information, redirect])

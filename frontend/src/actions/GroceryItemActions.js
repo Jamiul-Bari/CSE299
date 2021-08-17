@@ -12,9 +12,9 @@ import {
 
 export const listGroceryItems = () => async (dispatch) => {
     try {
-        dispatch({type: GROCERY_ITEM_LIST_REQUEST})
+        dispatch({ type: GROCERY_ITEM_LIST_REQUEST })
 
-        const {data} = await axios.get('/drf/grocery-items/');
+        const { data } = await axios.get('/drf/grocery-items/');
 
         dispatch({
             type: GROCERY_ITEM_LIST_SUCCESS,
@@ -33,9 +33,9 @@ export const listGroceryItems = () => async (dispatch) => {
 
 export const listGroceryItemDetails = (id) => async (dispatch) => {
     try {
-        dispatch({type: GROCERY_ITEM_DETAILS_REQUEST})
+        dispatch({ type: GROCERY_ITEM_DETAILS_REQUEST })
 
-        const {data} = await axios.get(`/drf/grocery-items/${id}`);
+        const { data } = await axios.get(`/drf/grocery-items/${id}`);
 
         dispatch({
             type: GROCERY_ITEM_DETAILS_SUCCESS,
