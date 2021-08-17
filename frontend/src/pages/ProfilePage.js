@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Form, Row, Col } from 'react-bootstrap';
+import { Button, Form, Row, Col, Table } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 
 import Loader from '../components/Loader';
@@ -30,6 +31,9 @@ function ProfilePage({ history }) {
 
     const userUpdateProfile = useSelector(state => state.userUpdateProfile);
     const { success } = userUpdateProfile;
+
+    const listMyOrder = useSelector(state => state.listMyOrder);
+    const { loading: loadingOrders, error: errorOrders, orders } = listMyOrder;
 
     useEffect(() => {
         if (!user_information) {
@@ -133,6 +137,45 @@ function ProfilePage({ history }) {
 
             <Col md={9}>
                 <h2>My Orders</h2>
+
+                {
+                    loadingOrders ? (
+                        <Loader />
+                    ) : errorOrders ? (
+                        <Message variant='danger'>{errorOrders}</Message>
+                    ) : (
+                        <Table striped responsive className='table-sm'>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Date</th>
+                                    <th>Total</th>
+                                    <th>Paid</th>
+                                    <th>Delivered</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {orders.map(order => (
+                                    <tr key={order._id}>
+                                        <td>{order._id}</td>
+                                        <td>{order.createdAt.substring(0, 10)}</td>
+                                        <td>$ {order.totalPrice}</td>
+                                        <td>{order.isPaid ? order.paidAtsubstring(0, 10) : (
+                                            <i className='fas fa-times' style={{ color: 'red' }}></i>
+                                        )}</td>
+                                        <td>
+                                            <LinkContainer to={`/order/${order._id}`}>
+                                                <Button className='btn-sm'>Details</Button>
+                                            </LinkContainer>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    )
+                }
+
             </Col>
         </Row>
     )
