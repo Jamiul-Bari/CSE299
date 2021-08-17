@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
-import { list_users, delete_users } from '../actions/UserActions'
+import { list_users, delete_user } from '../actions/UserActions'
 
 function UserListPage({ history }) {
 
@@ -32,7 +32,7 @@ function UserListPage({ history }) {
 
     const deleteHandler = (id) => {
         if (window.confirm("Are you sure you want to delete this user?")) {
-            dispatch(delete_users(id));
+            dispatch(delete_user(id));
         }
     }
 
@@ -67,7 +67,7 @@ function UserListPage({ history }) {
                                             )}</td>
 
                                             <td>
-                                                <LinkContainer to={`/admin/user/${user._id}`}>
+                                                <LinkContainer to={`/admin/user/${user._id}/edit`}>
                                                     <Button
                                                         variant='light'
                                                         className='btn-sm'
