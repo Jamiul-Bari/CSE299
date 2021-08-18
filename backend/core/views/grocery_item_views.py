@@ -67,3 +67,16 @@ def delete_grocery_item(request, pk):
     grocery_item = GroceryItem.objects.get(_id=pk)
     grocery_item.delete()
     return Response('Grocery Item Deleted')
+
+
+@api_view(['POST'])
+def upload_image(request):
+    data = request.data
+
+    grocery_item_id = data['grocery_item_id']
+    grocery_item = GroceryItem.objects.get(_id=grocery_item_id)
+
+    grocery_item.image = request.FILES.get('image')
+    grocery_item.save()
+
+    return Response('Grocery Image is uploaded')
