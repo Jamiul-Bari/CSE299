@@ -15,7 +15,16 @@ import {
 
     GROCERY_ITEM_DETAILS_REQUEST,
     GROCERY_ITEM_DETAILS_SUCCESS,
-    GROCERY_ITEM_DETAILS_FAIL
+    GROCERY_ITEM_DETAILS_FAIL,
+
+    GROCERY_ITEM_DELETE_REQUEST,
+    GROCERY_ITEM_DELETE_SUCCESS,
+    GROCERY_ITEM_DELETE_FAIL,
+
+    GROCERY_ITEM_CREATE_REQUEST,
+    GROCERY_ITEM_CREATE_SUCCESS,
+    GROCERY_ITEM_CREATE_FAIL,
+    GROCERY_ITEM_CREATE_RESET,
 
 } from '../constants/GroceryItemConstants'
 
@@ -45,6 +54,41 @@ export const GroceryItemDetailsReducer = (state = { grocery_item: { reviews: [] 
 
         case GROCERY_ITEM_DETAILS_FAIL:
             return { loading: false, error: action.payload }
+
+        default:
+            return state
+    }
+}
+
+export const GroceryItemDeleteReducer = (state = {}, action) => {
+    switch (action.type) {
+        case GROCERY_ITEM_DELETE_REQUEST:
+            return { loading: true }
+
+        case GROCERY_ITEM_DELETE_SUCCESS:
+            return { loading: false, success: true }
+
+        case GROCERY_ITEM_DELETE_FAIL:
+            return { loading: false, error: action.payload }
+
+        default:
+            return state
+    }
+}
+
+export const GroceryItemCreateReducer = (state = {}, action) => {
+    switch (action.type) {
+        case GROCERY_ITEM_CREATE_REQUEST:
+            return { loading: true }
+
+        case GROCERY_ITEM_CREATE_SUCCESS:
+            return { loading: false, success: true }
+
+        case GROCERY_ITEM_CREATE_FAIL:
+            return { loading: false, error: action.payload }
+
+        case GROCERY_ITEM_CREATE_RESET:
+            return {}
 
         default:
             return state

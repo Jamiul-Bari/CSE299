@@ -7,7 +7,16 @@ import {
 
     GROCERY_ITEM_DETAILS_REQUEST,
     GROCERY_ITEM_DETAILS_SUCCESS,
-    GROCERY_ITEM_DETAILS_FAIL
+    GROCERY_ITEM_DETAILS_FAIL,
+
+    GROCERY_ITEM_DELETE_REQUEST,
+    GROCERY_ITEM_DELETE_SUCCESS,
+    GROCERY_ITEM_DELETE_FAIL,
+
+    GROCERY_ITEM_CREATE_REQUEST,
+    GROCERY_ITEM_CREATE_SUCCESS,
+    GROCERY_ITEM_CREATE_FAIL,
+
 } from '../constants/GroceryItemConstants'
 
 export const listGroceryItems = () => async (dispatch) => {
@@ -49,5 +58,82 @@ export const listGroceryItemDetails = (id) => async (dispatch) => {
                 ? error.response.data.detail
                 : error.message,
         })
+    }
+}
+
+export const deleteGroceryItem = (id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: GROCERY_ITEM_DELETE_REQUEST
+        });
+
+        const {
+            userLogin: { user_information }
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${user_information.token}`
+            }
+        }
+
+        const { data } = await axios.delete(
+            `/drf/grocery-items/delete/${id}/`,
+            config
+        );
+
+        dispatch({
+            type: GROCERY_ITEM_DELETE_SUCCESS,
+        });
+
+
+    } catch (error) {
+        dispatch({
+            type: GROCERY_ITEM_DELETE_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message
+        });
+    }
+}
+
+
+export const createGroceryItem = () => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: GROCERY_ITEM_CREATE_REQUEST
+        });
+
+        const {
+            userLogin: { user_information }
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${user_information.token}`
+            }
+        }
+
+        const { data } = await axios.post(
+            `/drf/grocery-items/create/`,
+            {},
+            config
+        );
+
+        dispatch({
+            type: GROCERY_ITEM_CREATE_SUCCESS,
+            payload: data
+        });
+
+
+    } catch (error) {
+        dispatch({
+            type: GROCERY_ITEM_CREATE_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message
+        });
     }
 }

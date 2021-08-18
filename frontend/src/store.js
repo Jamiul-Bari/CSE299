@@ -4,7 +4,10 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import {
     GroceryItemListReducer,
-    GroceryItemDetailsReducer
+    GroceryItemDetailsReducer,
+    GroceryItemDeleteReducer,
+    GroceryItemCreateReducer,
+
 } from './reducers/GroceryItemReducers';
 
 import { CartReducer } from './reducers/CartReducers';
@@ -15,6 +18,9 @@ import {
     UserDetailsReducer,
     UserUpdateProfileReducer,
     UserListReducer,
+    UserDeleteReducer,
+    UserUpdateReducer,
+
 } from './reducers/UserReducers';
 
 import {
@@ -22,17 +28,24 @@ import {
     OrderDetailsReducer,
     OrderPayReducer,
     ListMyOrderReducer,
+
 } from './reducers/OrderReducers';
 
 const reducer = combineReducers({
     groceryItemList: GroceryItemListReducer,
     groceryItemDetails: GroceryItemDetailsReducer,
+    groceryItemDelete: GroceryItemDeleteReducer,
+    groceryItemCreate: GroceryItemCreateReducer,
     cart: CartReducer,
+
     userLogin: UserLoginReducer,
     userRegister: UserRegisterReducer,
     userDetails: UserDetailsReducer,
     userUpdateProfile: UserUpdateProfileReducer,
     usersList: UserListReducer,
+    userDelete: UserDeleteReducer,
+    userUpdate: UserUpdateReducer,
+
     orderCreate: OrderCreateReducer,
     orderDetails: OrderDetailsReducer,
     orderPay: OrderPayReducer,
