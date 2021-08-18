@@ -58,7 +58,7 @@ function Header() {
                                         <NavDropdown.Item>Users</NavDropdown.Item>
                                     </LinkContainer>
 
-                                    <LinkContainer to='/admin/grocery-item'>
+                                    <LinkContainer to='/admin/grocery-item-list'>
                                         <NavDropdown.Item>Grocery Items</NavDropdown.Item>
                                     </LinkContainer>
 

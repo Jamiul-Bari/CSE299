@@ -40,7 +40,7 @@ function App() {
                     <Route path='/admin/user-list' component={UserListPage} />
                     <Route path='/admin/user/:id/edit' component={UserEditPage} />
 
-                    <Route path='/admin/grocery-item' component={GroceryItemListPage} />
+                    <Route path='/admin/grocery-item-list' component={GroceryItemListPage} />
                     <Route path='/admin/grocery-item/:id/edit' component={GroceryItemEditPage} />
 
                 </Container>

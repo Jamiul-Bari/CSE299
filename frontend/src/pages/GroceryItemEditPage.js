@@ -39,7 +39,7 @@ function GroceryItemEditPage({ match, history }) {
             dispatch({
                 type: GROCERY_ITEM_UPDATE_RESET,
             });
-            history.push('/admin/grocery-item');
+            history.push('/admin/grocery-item-list');
         }
         else {
             if (!grocery_item.name || grocery_item._id !== Number(grocery_item_id)) {
@@ -77,7 +77,7 @@ function GroceryItemEditPage({ match, history }) {
     return (
         <div>
 
-            <Link to='/admin/grocery-item'>
+            <Link to='/admin/grocery-item-list'>
                 Go Back
             </Link>
 
