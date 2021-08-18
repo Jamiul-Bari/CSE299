@@ -99,7 +99,7 @@ function GroceryItemListPage({ match, history }) {
                                         <tr key={grocery_item._id}>
                                             <td>{grocery_item._id}</td>
                                             <td>{grocery_item.name}</td>
-                                            <td>BDT. {grocery_item.price}</td>
+                                            <td>৳ {grocery_item.price}</td>
                                             <td>{grocery_item.category}</td>
                                             <td>{grocery_item.brand}</td>
 

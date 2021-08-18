@@ -17,7 +17,7 @@ function OrderPage({ match }) {
     const { order, error, loading } = orderDetails;
 
     if (!loading && !error) {
-        order.order_items_price = order.order_items.reduce((acc, grocery) => acc + (grocery.price * grocery.qty), 0).toFixed(2);
+        order.order_items_price = order.orderItems.reduce((acc, grocery) => acc + (grocery.price * grocery.qty), 0).toFixed(2);
     }
 
 
@@ -55,9 +55,9 @@ function OrderPage({ match }) {
 
                             <p>
                                 <strong>Shipping: </strong>
-                                {order.shipping_address.address}, {order.shipping_address.city}
+                                {order.shippingAddress.address}, {order.shippingAddress.city}
                                 {' - '}
-                                {order.shipping_address.postalCode}
+                                {order.shippingAddress.postalCode}
                             </p>
 
                             {order.isDelivered ? (
@@ -86,14 +86,14 @@ function OrderPage({ match }) {
                             <h2>Order Items</h2>
 
                             {
-                                order.order_items.length === 0
+                                order.orderItems.length === 0
                                     ? <Message variant='info'>
                                         There is no Order
                                     </Message>
                                     : (
                                         <ListGroup variant='flush'>
                                             {
-                                                order.order_items.map((grocery, index) => (
+                                                order.orderItems.map((grocery, index) => (
                                                     <ListGroup.Item key={index}>
                                                         <Row>
                                                             <Col md={1}>
