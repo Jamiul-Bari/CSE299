@@ -82,7 +82,7 @@ export const GroceryItemCreateReducer = (state = {}, action) => {
             return { loading: true }
 
         case GROCERY_ITEM_CREATE_SUCCESS:
-            return { loading: false, success: true }
+            return { loading: false, success: true, grocery_item: action.payload }
 
         case GROCERY_ITEM_CREATE_FAIL:
             return { loading: false, error: action.payload }
