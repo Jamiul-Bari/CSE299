@@ -35,7 +35,7 @@ function GroceryItemListPage({ match, history }) {
 
         dispatch({ type: GROCERY_ITEM_CREATE_RESET });
 
-        if (!user_information.isAdmin) {
+        if (!user_information.is_admin) {
             history.push('/login');
         }
 

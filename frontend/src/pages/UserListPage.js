@@ -22,7 +22,7 @@ function UserListPage({ history }) {
     const { success: successDelete } = userDelete;
 
     useEffect(() => {
-        if (user_information && user_information.isAdmin) {
+        if (user_information && user_information.is_admin) {
             dispatch(list_users());
         }
         else {
@@ -60,7 +60,7 @@ function UserListPage({ history }) {
                                         <tr key={user._id}>
                                             <td>{user.name}</td>
                                             <td>{user.email}</td>
-                                            <td>{user.isAdmin ? (
+                                            <td>{user.is_admin ? (
                                                 <i className='fas fa-check' style={{ color: 'green' }}></i>
                                             ) : (
                                                 <i className='fas fa-check' style={{ color: 'red' }}></i>

@@ -51,20 +51,20 @@ function Header() {
                                 </LinkContainer>
                             )}
 
-                            {user_information && user_information.isAdmin && (
+                            {user_information && user_information.is_admin && (
                                 <NavDropdown id='adminmenu' title='Admin'>
 
                                     <LinkContainer to='/admin/user-list'>
                                         <NavDropdown.Item>Users</NavDropdown.Item>
                                     </LinkContainer>
 
-                                    <LinkContainer to='/admin/grocery-item-list'>
-                                        <NavDropdown.Item>Products</NavDropdown.Item>
+                                    <LinkContainer to='/admin/grocery-item'>
+                                        <NavDropdown.Item>Grocery Items</NavDropdown.Item>
                                     </LinkContainer>
 
-                                    <LinkContainer to='/admin/order-list'>
+                                    {/* <LinkContainer to='/admin/order-list'>
                                         <NavDropdown.Item>Orders</NavDropdown.Item>
-                                    </LinkContainer>
+                                    </LinkContainer> */}
                                     
                                 </NavDropdown>
                             )}
