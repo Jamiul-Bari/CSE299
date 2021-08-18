@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
@@ -23,6 +24,7 @@ function GroceryItemEditPage({ match, history }) {
     const [category, setCategory] = useState('');
     const [countInStock, setCountInStock] = useState(0);
     const [description, setDescription] = useState('');
+    const [uploading, setUploading] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -72,6 +74,37 @@ function GroceryItemEditPage({ match, history }) {
             description,
 
         }));
+    }
+
+    const uploadFileHandler = async (e) => {
+        const file = e.target.files[0];
+        const formData = new FormData();
+
+        formData.append('image', file);
+        formData.append('grocery_item_id', grocery_item_id);
+
+        setUploading(true);
+
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+
+            const { data } = await axios.post(
+                'drf/grocery-items/upload/',
+                formData,
+                config
+            );
+
+            setImage(data);
+            setUploading(false);
+
+        }
+        catch (error) {
+            setUploading(false);
+        }
     }
 
     return (
@@ -128,6 +161,18 @@ function GroceryItemEditPage({ match, history }) {
                                         >
 
                                         </Form.Control>
+
+                                        <Form.File
+                                            id='image-file'
+                                            label='Choose File'
+                                            custom
+                                            onChange={uploadFileHandler}
+                                        >
+
+                                        </Form.File>
+
+                                        {uploading && <Loader />}
+
                                     </Form.Group>
 
                                     <Form.Group controlId='brand'>
