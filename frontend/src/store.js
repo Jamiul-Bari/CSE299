@@ -29,6 +29,7 @@ import {
     OrderDetailsReducer,
     OrderPayReducer,
     ListMyOrderReducer,
+    OrderListReducer,
 
 } from './reducers/OrderReducers';
 
@@ -52,7 +53,8 @@ const reducer = combineReducers({
     orderDetails: OrderDetailsReducer,
     orderPay: OrderPayReducer,
     listMyOrder: ListMyOrderReducer,
-})
+    orderList: OrderListReducer,
+});
 
 // Loading data from the LocalStorage
 const grocery_in_cart_from_storage = localStorage.getItem('grocery_in_cart')

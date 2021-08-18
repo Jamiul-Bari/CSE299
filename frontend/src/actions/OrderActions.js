@@ -18,6 +18,10 @@ import {
     LIST_MY_ORDER_FAIL,
     LIST_MY_ORDER_RESET,
 
+    ORDER_LIST_REQUEST,
+    ORDER_LIST_SUCCESS,
+    ORDER_LIST_FAIL,
+
 } from '../constants/OrderConstants';
 
 import { CART_CLEAR_ITEMS } from '../constants/CartConstants';
@@ -176,6 +180,45 @@ export const listMyOrders = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: LIST_MY_ORDER_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message
+        });
+    }
+}
+
+
+export const listOrders = () => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: ORDER_LIST_REQUEST
+        });
+
+        const {
+            userLogin: { user_information }
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${user_information.token}`
+            }
+        }
+
+        const { data } = await axios.get(
+            `/drf/orders/`,
+            config
+        );
+
+        dispatch({
+            type: ORDER_LIST_SUCCESS,
+            payload: data
+        });
+
+
+    } catch (error) {
+        dispatch({
+            type: ORDER_LIST_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message
