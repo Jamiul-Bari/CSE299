@@ -7,6 +7,7 @@ import {
     GroceryItemDetailsReducer,
     GroceryItemDeleteReducer,
     GroceryItemCreateReducer,
+    GroceryItemUpdateReducer,
 
 } from './reducers/GroceryItemReducers';
 
@@ -36,6 +37,7 @@ const reducer = combineReducers({
     groceryItemDetails: GroceryItemDetailsReducer,
     groceryItemDelete: GroceryItemDeleteReducer,
     groceryItemCreate: GroceryItemCreateReducer,
+    groceryItemUpdate: GroceryItemUpdateReducer,
     cart: CartReducer,
 
     userLogin: UserLoginReducer,

@@ -17,6 +17,7 @@ import OrderPage from './pages/OrderPage';
 import UserListPage from './pages/UserListPage';
 import UserEditPage from './pages/UserEditPage';
 import GroceryItemListPage from './pages/GroceryItemListPage';
+import GroceryItemEditPage from './pages/GroceryItemEditPage';
 
 function App() {
     return (
@@ -40,6 +41,8 @@ function App() {
                     <Route path='/admin/user/:id/edit' component={UserEditPage} />
 
                     <Route path='/admin/grocery-item' component={GroceryItemListPage} />
+                    <Route path='/admin/grocery-item/:id/edit' component={GroceryItemEditPage} />
+
                 </Container>
             </main>
 
