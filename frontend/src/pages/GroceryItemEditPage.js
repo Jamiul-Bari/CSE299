@@ -7,7 +7,9 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
 
-import { listGroceryItemDetails } from '../actions/GroceryItemActions';
+import { listGroceryItemDetails, updateGroceryItem } from '../actions/GroceryItemActions';
+
+import { GROCERY_ITEM_UPDATE_RESET } from '../constants/GroceryItemConstants'
 
 
 function GroceryItemEditPage({ match, history }) {
@@ -27,27 +29,49 @@ function GroceryItemEditPage({ match, history }) {
     const groceryItemDetails = useSelector(state => state.groceryItemDetails);
     const { error, loading, grocery_item } = groceryItemDetails;
 
+    const groceryItemUpdate = useSelector(state => state.groceryItemUpdate);
+    const { error: errorUpdate, loading: loadingUpdate, success: successUpdate } = groceryItemUpdate;
+
 
     useEffect(() => {
 
-        if (!grocery_item.name || grocery_item._id !== Number(grocery_item_id)) {
-            dispatch(listGroceryItemDetails(grocery_item_id));
+        if (successUpdate) {
+            dispatch({
+                type: GROCERY_ITEM_UPDATE_RESET,
+            });
+            history.push('/admin/grocery-item');
         }
         else {
-            setName(grocery_item.name);
-            setPrice(grocery_item.price);
-            setImage(grocery_item.image);
-            setBrand(grocery_item.brand);
-            setCategory(grocery_item.category);
-            setCountInStock(grocery_item.countInStock);
-            setDescription(grocery_item.description);
+            if (!grocery_item.name || grocery_item._id !== Number(grocery_item_id)) {
+                dispatch(listGroceryItemDetails(grocery_item_id));
+            }
+            else {
+                setName(grocery_item.name);
+                setPrice(grocery_item.price);
+                setImage(grocery_item.image);
+                setBrand(grocery_item.brand);
+                setCategory(grocery_item.category);
+                setCountInStock(grocery_item.countInStock);
+                setDescription(grocery_item.description);
+            }
         }
 
-    }, [dispatch, grocery_item, grocery_item_id, history])
+    }, [dispatch, grocery_item, grocery_item_id, history, successUpdate])
 
     const submitHandler = (e) => {
         e.preventDefault();
-        // update
+
+        dispatch(updateGroceryItem({
+            _id: grocery_item_id,
+            name,
+            price,
+            image,
+            brand,
+            category,
+            countInStock,
+            description,
+
+        }));
     }
 
     return (
@@ -59,6 +83,9 @@ function GroceryItemEditPage({ match, history }) {
 
             <FormContainer>
                 <h1>Edit Grocery Item</h1>
+
+                {loadingUpdate && <Loader />}
+                {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
 
                 {
                     loading ? <Loader />

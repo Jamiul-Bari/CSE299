@@ -26,6 +26,11 @@ import {
     GROCERY_ITEM_CREATE_FAIL,
     GROCERY_ITEM_CREATE_RESET,
 
+    GROCERY_ITEM_UPDATE_REQUEST,
+    GROCERY_ITEM_UPDATE_SUCCESS,
+    GROCERY_ITEM_UPDATE_FAIL,
+    GROCERY_ITEM_UPDATE_RESET,
+
 } from '../constants/GroceryItemConstants'
 
 export const GroceryItemListReducer = (state = { grocery_items: [] }, action) => {
@@ -89,6 +94,25 @@ export const GroceryItemCreateReducer = (state = {}, action) => {
 
         case GROCERY_ITEM_CREATE_RESET:
             return {}
+
+        default:
+            return state
+    }
+}
+
+export const GroceryItemUpdateReducer = (state = { grocery_item: {} }, action) => {
+    switch (action.type) {
+        case GROCERY_ITEM_UPDATE_REQUEST:
+            return { loading: true }
+
+        case GROCERY_ITEM_UPDATE_SUCCESS:
+            return { loading: false, success: true, grocery_item: action.payload }
+
+        case GROCERY_ITEM_UPDATE_FAIL:
+            return { loading: false, error: action.payload }
+
+        case GROCERY_ITEM_UPDATE_RESET:
+            return { grocery_item: {} }
 
         default:
             return state

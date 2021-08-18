@@ -17,6 +17,10 @@ import {
     GROCERY_ITEM_CREATE_SUCCESS,
     GROCERY_ITEM_CREATE_FAIL,
 
+    GROCERY_ITEM_UPDATE_REQUEST,
+    GROCERY_ITEM_UPDATE_SUCCESS,
+    GROCERY_ITEM_UPDATE_FAIL,
+
 } from '../constants/GroceryItemConstants'
 
 export const listGroceryItems = () => async (dispatch) => {
@@ -131,6 +135,49 @@ export const createGroceryItem = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: GROCERY_ITEM_CREATE_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message
+        });
+    }
+}
+
+export const updateGroceryItem = (grocery_item) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: GROCERY_ITEM_UPDATE_REQUEST
+        });
+
+        const {
+            userLogin: { user_information }
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${user_information.token}`
+            }
+        }
+
+        const { data } = await axios.put(
+            `/drf/grocery-items/update/${grocery_item._id}/`,
+            grocery_item,
+            config
+        );
+
+        dispatch({
+            type: GROCERY_ITEM_UPDATE_SUCCESS,
+            payload: data
+        });
+
+        dispatch({
+            type: GROCERY_ITEM_DETAILS_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: GROCERY_ITEM_UPDATE_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message
