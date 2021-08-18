@@ -35,7 +35,7 @@ function GroceryItemListPage({ match, history }) {
 
         dispatch({ type: GROCERY_ITEM_CREATE_RESET });
 
-        if (!user_information.isAdmin) {
+        if (!user_information.is_admin) {
             history.push('/login');
         }
 
@@ -97,8 +97,9 @@ function GroceryItemListPage({ match, history }) {
                                 <tbody>
                                     {grocery_items.map(grocery_item => (
                                         <tr key={grocery_item._id}>
+                                            <td>{grocery_item._id}</td>
                                             <td>{grocery_item.name}</td>
-                                            <td>BDT. {grocery_item.price}</td>
+                                            <td>৳ {grocery_item.price}</td>
                                             <td>{grocery_item.category}</td>
                                             <td>{grocery_item.brand}</td>
 

@@ -17,7 +17,7 @@ function UserEditPage({ match, history }) {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [is_admin, setIsAdmin] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -44,7 +44,7 @@ function UserEditPage({ match, history }) {
             else {
                 setName(user.name);
                 setEmail(user.email);
-                setIsAdmin(user.isAdmin);
+                setIsAdmin(user.is_admin);
             }
         }
 
@@ -52,7 +52,7 @@ function UserEditPage({ match, history }) {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        dispatch(update_user({ _id: user._id, name, email, isAdmin }));
+        dispatch(update_user({ _id: user._id, name, email, is_admin }));
     }
 
     return (
@@ -102,7 +102,7 @@ function UserEditPage({ match, history }) {
                                         <Form.Check
                                             type='checkbox'
                                             label='Is Admin'
-                                            checked={isAdmin}
+                                            checked={is_admin}
                                             onChange={(e) => setIsAdmin(e.target.checked)}
                                         >
 
