@@ -72,7 +72,7 @@ function OrderPage({ match }) {
 
                             <p>
                                 <strong>Method: </strong>
-                                {order.payment_method}
+                                {order.paymentMethod}
                             </p>
 
                             {order.isPaid ? (
@@ -141,7 +141,7 @@ function OrderPage({ match }) {
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Shipping: </Col>
-                                    <Col>৳ {order.delivery_charge}  </Col>
+                                    <Col>৳ {order.deliveryCharge}  </Col>
                                 </Row>
                             </ListGroup.Item>
 
@@ -155,7 +155,7 @@ function OrderPage({ match }) {
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Total: </Col>
-                                    <Col>৳ {order.total_price}  </Col>
+                                    <Col>৳ {order.totalPrice}  </Col>
                                 </Row>
                             </ListGroup.Item>
                         </ListGroup>
