@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from rest_framework import status
 
-from core.models import GroceryItem
+from core.models import GroceryItem, Review
 from core.grocery_items import grocery_items
 from core.serializers import GroceryItemSerializer
 
@@ -23,7 +23,6 @@ def get_grocery_item(request, pk):
     return Response(serializer.data)
 
 
-
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
 def create_grocery_item(request):
@@ -33,9 +32,9 @@ def create_grocery_item(request):
         name='Sample Name',
         price=0,
         brand='Sample Brand',
-        countInStock = 0,
-        category = 'Sample Category',
-        description = '',
+        countInStock=0,
+        category='Sample Category',
+        description='',
     )
     serializer = GroceryItemSerializer(grocery_item, many=False)
     return Response(serializer.data)
@@ -80,3 +79,45 @@ def upload_image(request):
     grocery_item.save()
 
     return Response('Grocery Image is uploaded')
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_grocery_item_review(request, pk):
+    user = request.user
+    grocery_item = GroceryItem.objects.get(_id=pk)
+    data = request.data
+
+    # 1. Review already exist. One review per user.
+    already_exists = grocery_item.review_set.filter(user=user).exists()
+
+    if already_exists:
+        content = {'details': 'This Grocery Item is already reviewed by you'}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+    # 2. Review without rating or rating = 0.
+    elif data['rating'] == 0:
+        content = {'details': 'Please select a rating'}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+    # 3. Create review.
+    else:
+        review = Review.objects.create(
+            grocery_item=grocery_item,
+            user=user,
+            name=user.first_name,
+            rating=data['rating'],
+            comment=data['comment'],
+        )
+
+        reviews = grocery_item.review_set.all()
+        grocery_item.numReviews = len(reviews)
+
+        total = 0
+        for i in reviews:
+            total += i.rating
+
+        grocery_item.rating = total / len(reviews)
+        grocery_item.save()
+
+        return Response('Review Added')
