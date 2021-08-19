@@ -6,15 +6,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 
-import { getOrderDetails } from '../actions/OrderActions';
+import {
+    getOrderDetails,
+    deliverOrder,
+
+} from '../actions/OrderActions';
+
+import { ORDER_DELIVER_RESET } from '../constants/OrderConstants'
 
 
-function OrderPage({ match }) {
+function OrderPage({ match, history }) {
     const order_id = match.params.id;
     const dispatch = useDispatch();
 
     const orderDetails = useSelector(state => state.orderDetails);
     const { order, error, loading } = orderDetails;
+
+    // orderPay
+
+    const orderDeliver = useSelector(state => state.orderDeliver);
+    const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
+
+    const userLogin = useSelector(state => state.userLogin);
+    const { user_information } = userLogin;
 
     if (!loading && !error) {
         order.order_items_price = order.orderItems.reduce((acc, grocery) => acc + (grocery.price * grocery.qty), 0).toFixed(2);
@@ -22,13 +36,24 @@ function OrderPage({ match }) {
 
 
     useEffect(() => {
-        // If there is no order or the order id is not here yet, dispatch
-        if (!order || order._id !== Number(order_id)) {
-            dispatch(getOrderDetails(order_id))
+
+        if (!user_information) {
+            history.push('/login');
         }
 
-    }, [dispatch, order, order_id]);
+        // If there is no order or the order id is not here yet, dispatch
+        if (!order || order._id !== Number(order_id) || successDeliver) {
+            dispatch({ type: ORDER_DELIVER_RESET });
+
+            dispatch(getOrderDetails(order_id));
+        }
+
+    }, [dispatch, order, order_id, successDeliver]);
     // order from the serializer
+
+    const deliverHandler = () => {
+        dispatch(deliverOrder(order));
+    }
 
     return loading ? (
         <Loader />
@@ -159,6 +184,26 @@ function OrderPage({ match }) {
                                 </Row>
                             </ListGroup.Item>
                         </ListGroup>
+
+
+                        {
+                            loadingDeliver && <Loader />
+                        }
+
+                        {
+                            user_information && user_information.isAdmin && order.isPaid && !order.isDelivered && (
+                                <ListGroup.Item>
+                                    <Button
+                                        type='button'
+                                        className='btn btn-block'
+                                        onClick={deliverHandler}
+                                    >
+                                        Mark as Delivered
+                                    </Button>
+                                </ListGroup.Item>
+                            )
+                        }
+
                     </Card>
                 </Col>
             </Row>
