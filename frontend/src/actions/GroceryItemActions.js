@@ -21,6 +21,10 @@ import {
     GROCERY_ITEM_UPDATE_SUCCESS,
     GROCERY_ITEM_UPDATE_FAIL,
 
+    GROCERY_ITEM_CRATE_REVIEW_REQUEST,
+    GROCERY_ITEM_CRATE_REVIEW_SUCCESS,
+    GROCERY_ITEM_CRATE_REVIEW_FAIL,
+
 } from '../constants/GroceryItemConstants'
 
 export const listGroceryItems = () => async (dispatch) => {
@@ -173,11 +177,51 @@ export const updateGroceryItem = (grocery_item) => async (dispatch, getState) =>
         dispatch({
             type: GROCERY_ITEM_DETAILS_SUCCESS,
             payload: data
-        })
+        });
 
     } catch (error) {
         dispatch({
             type: GROCERY_ITEM_UPDATE_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message
+        });
+    }
+}
+
+
+export const createGroceryItemReview = (grocery_item_id, review) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: GROCERY_ITEM_CREATE_REVIEW_REQUEST
+        });
+
+        const {
+            userLogin: { user_information }
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${user_information.token}`
+            }
+        }
+
+        const { data } = await axios.post(
+            `/drf/grocery-items/${grocery_item._id}/reviews/`,
+            review,
+            config
+        );
+
+        dispatch({
+            type: GROCERY_ITEM_CREATE_REVIEW_SUCCESS,
+            payload: data
+        });
+
+
+    } catch (error) {
+        dispatch({
+            type: GROCERY_ITEM_CREATE_REVIEW_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message
