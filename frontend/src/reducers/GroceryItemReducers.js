@@ -36,6 +36,10 @@ import {
     GROCERY_ITEM_CREATE_REVIEW_FAIL,
     GROCERY_ITEM_CREATE_REVIEW_RESET,
 
+    HIT_GROCERY_ITEM_REQUEST,
+    HIT_GROCERY_ITEM_SUCCESS,
+    HIT_GROCERY_ITEM_FAIL,
+
 } from '../constants/GroceryItemConstants'
 
 export const GroceryItemListReducer = (state = { grocery_items: [] }, action) => {
@@ -142,6 +146,23 @@ export const GroceryItemReviewCreateReducer = (state = {}, action) => {
 
         case GROCERY_ITEM_CREATE_REVIEW_RESET:
             return {}
+
+        default:
+            return state
+    }
+}
+
+export const HitGroceryItemReducer = (state = { grocery_items: [] }, action) => {
+    switch (action.type) {
+        case HIT_GROCERY_ITEM_REQUEST:
+            return { loading: true }
+
+        case HIT_GROCERY_ITEM_SUCCESS:
+            return { loading: false, grocery_items: action.payload }
+
+        case HIT_GROCERY_ITEM_FAIL:
+            return { loading: false, error: action.payload }
+
 
         default:
             return state

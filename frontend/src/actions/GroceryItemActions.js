@@ -25,6 +25,10 @@ import {
     GROCERY_ITEM_CREATE_REVIEW_SUCCESS,
     GROCERY_ITEM_CREATE_REVIEW_FAIL,
 
+    HIT_GROCERY_ITEM_REQUEST,
+    HIT_GROCERY_ITEM_SUCCESS,
+    HIT_GROCERY_ITEM_FAIL,
+
 } from '../constants/GroceryItemConstants'
 
 export const listGroceryItems = (keyword = '') => async (dispatch) => {
@@ -41,6 +45,28 @@ export const listGroceryItems = (keyword = '') => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: GROCERY_ITEM_LIST_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        })
+    }
+}
+
+export const listHitGroceryItems = () => async (dispatch) => {
+    try {
+        dispatch({ type: HIT_GROCERY_ITEM_REQUEST })
+
+        const { data } = await axios.get(`/drf/grocery-items/hit/`);
+        
+
+        dispatch({
+            type: HIT_GROCERY_ITEM_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: HIT_GROCERY_ITEM_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,

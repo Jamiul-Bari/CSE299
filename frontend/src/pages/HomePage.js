@@ -7,6 +7,7 @@ import GroceryItem from '../components/GroceryItem';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Paginate from '../components/Paginate';
+import GroceryItemSlider from '../components/GroceryItemSlider';
 
 import { listGroceryItems } from '../actions/GroceryItemActions'
 
@@ -25,6 +26,7 @@ function HomePage({ history }) {
 
     return (
         <div>
+            {!keyword && <GroceryItemSlider />}
             <h1>Latest Products</h1>
             {
                 loading ? <Loader />
