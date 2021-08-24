@@ -92,12 +92,12 @@ def create_grocery_item_review(request, pk):
     already_exists = grocery_item.review_set.filter(user=user).exists()
 
     if already_exists:
-        content = {'details': 'This Grocery Item is already reviewed by you'}
+        content = {'detail': 'This Grocery Item is already reviewed by you'}
         return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
     # 2. Review without rating or rating = 0.
     elif data['rating'] == 0:
-        content = {'details': 'Please select a rating'}
+        content = {'detail': 'Please select a rating'}
         return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
     # 3. Create review.
