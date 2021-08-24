@@ -50,6 +50,15 @@ def get_grocery_items(request):
 
 
 @api_view(['GET'])
+def get_hit_grocery_items(request):
+    grocery_items_query_set = GroceryItem.objects.filter(
+        rating__gte=4).order_by('-rating')[0:5]
+    serializer = GroceryItemSerializer(grocery_items_query_set, many=True)
+
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
 def get_grocery_item(request, pk):
     grocery_item = GroceryItem.objects.get(_id=pk)
     serializer = GroceryItemSerializer(grocery_item, many=False)
