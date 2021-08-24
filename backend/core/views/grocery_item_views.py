@@ -11,8 +11,14 @@ from core.serializers import GroceryItemSerializer
 
 @api_view(['GET'])
 def get_grocery_items(request):
-    grocery_items_query_set = GroceryItem.objects.all()
+    query = request.query_params.get('keyword')
+
+    if query == None:
+        query = ''
+
+    grocery_items_query_set = GroceryItem.objects.filter(name__icontains=query)
     serializer = GroceryItemSerializer(grocery_items_query_set, many=True)
+
     return Response(serializer.data)
 
 
