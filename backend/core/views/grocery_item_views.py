@@ -20,6 +20,7 @@ def get_grocery_items(request):
 
     grocery_items_query_set = GroceryItem.objects.filter(name__icontains=query)
 
+
     page = request.query_params.get('page')
     paginator = Paginator(grocery_items_query_set, 2)
 
@@ -42,6 +43,10 @@ def get_grocery_items(request):
         'grocery_items': serializer.data,
         'page': paginator.num_pages
     })
+
+    serializer = GroceryItemSerializer(grocery_items_query_set, many=True)
+
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
