@@ -4,6 +4,8 @@ from rest_framework.response import Response
 
 from rest_framework import status
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from core.models import GroceryItem, Review
 from core.grocery_items import grocery_items
 from core.serializers import GroceryItemSerializer
@@ -17,6 +19,31 @@ def get_grocery_items(request):
         query = ''
 
     grocery_items_query_set = GroceryItem.objects.filter(name__icontains=query)
+
+
+    page = request.query_params.get('page')
+    paginator = Paginator(grocery_items_query_set, 2)
+
+    try:
+        grocery_items = paginator.page(page)
+    except PageNotAnInteger:
+        grocery_items = paginator.page(1)
+    except EmptyPage:
+        grocery_items = paginator.page(paginator.num_pages)
+
+    if page == None:
+        page = 1
+
+    page = int(page)
+
+    serializer = GroceryItemSerializer(grocery_items_query_set, many=True)
+
+    # Send to GroceryItemReducer
+    return Response({
+        'grocery_items': serializer.data,
+        'page': paginator.num_pages
+    })
+
     serializer = GroceryItemSerializer(grocery_items_query_set, many=True)
 
     return Response(serializer.data)
