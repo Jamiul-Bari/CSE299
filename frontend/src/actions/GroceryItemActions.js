@@ -21,17 +21,17 @@ import {
     GROCERY_ITEM_UPDATE_SUCCESS,
     GROCERY_ITEM_UPDATE_FAIL,
 
-    GROCERY_ITEM_CRATE_REVIEW_REQUEST,
-    GROCERY_ITEM_CRATE_REVIEW_SUCCESS,
-    GROCERY_ITEM_CRATE_REVIEW_FAIL,
+    GROCERY_ITEM_CREATE_REVIEW_REQUEST,
+    GROCERY_ITEM_CREATE_REVIEW_SUCCESS,
+    GROCERY_ITEM_CREATE_REVIEW_FAIL,
 
 } from '../constants/GroceryItemConstants'
 
-export const listGroceryItems = () => async (dispatch) => {
+export const listGroceryItems = (keyword = '') => async (dispatch) => {
     try {
         dispatch({ type: GROCERY_ITEM_LIST_REQUEST })
 
-        const { data } = await axios.get('/drf/grocery-items/');
+        const { data } = await axios.get(`/drf/grocery-items${keyword}`);
 
         dispatch({
             type: GROCERY_ITEM_LIST_SUCCESS,
@@ -208,7 +208,7 @@ export const createGroceryItemReview = (grocery_item_id, review) => async (dispa
         }
 
         const { data } = await axios.post(
-            `/drf/grocery-items/${grocery_item._id}/reviews/`,
+            `/drf/grocery-items/${grocery_item_id._id}/reviews/`,
             review,
             config
         );

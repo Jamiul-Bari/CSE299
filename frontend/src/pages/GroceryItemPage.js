@@ -11,7 +11,7 @@ import {
     createGroceryItemReview
 } from '../actions/GroceryItemActions';
 
-import { GROCERY_ITEM_CRATE_REVIEW_RESET } from '../constants/GroceryItemConstants';
+import { GROCERY_ITEM_CREATE_REVIEW_RESET } from '../constants/GroceryItemConstants';
 
 function GroceryItemPage({ match, history }) {
 
@@ -40,7 +40,7 @@ function GroceryItemPage({ match, history }) {
             setRating(0);
             setComment('');
 
-            dispatch({ type: GROCERY_ITEM_CRATE_REVIEW_RESET });
+            dispatch({ type: GROCERY_ITEM_CREATE_REVIEW_RESET });
         }
 
         dispatch(listGroceryItemDetails(match.params.id));
@@ -169,9 +169,9 @@ function GroceryItemPage({ match, history }) {
                                         }
 
                                         <ListGroup variant='flush'>
-                                            {grocerty_item.reviews.map((review) => (
+                                            {grocery_item.reviews.map((review) => (
                                                 <ListGroup.Item key={review._id}>
-                                                    <strong>{reivew.name}</strong>
+                                                    <strong>{review.name}</strong>
                                                     <Rating value={review.rating} color='#f8e825' />
 
                                                     <p>P{review.createdAt.substring(0, 10)}</p>
@@ -195,7 +195,7 @@ function GroceryItemPage({ match, history }) {
                                                                 </Form.Label>
                                                                 <Form.Control
                                                                     as='select'
-                                                                    value={select}
+                                                                    value={rating}
                                                                     onChange={(e) => setRating(e.target.value)}
                                                                 >
                                                                     <option value=''>Select</option>

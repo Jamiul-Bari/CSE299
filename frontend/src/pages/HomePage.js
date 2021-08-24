@@ -10,14 +10,16 @@ import { listGroceryItems } from '../actions/GroceryItemActions'
 
 import grocery_items from '../grocery_items';
 
-function HomePage() {
+function HomePage({ history }) {
     const dispatch = useDispatch();
     const groceryItemList = useSelector(state => state.groceryItemList);
     const { error, loading, grocery_items } = groceryItemList;
 
+    let keyword = history.location.search;
+
     useEffect(() => {
-        dispatch(listGroceryItems())
-    }, [dispatch]);
+        dispatch(listGroceryItems(keyword))
+    }, [dispatch, keyword]);
 
     return (
         <div>
