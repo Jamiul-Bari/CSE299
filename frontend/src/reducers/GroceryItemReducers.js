@@ -44,7 +44,12 @@ export const GroceryItemListReducer = (state = { grocery_items: [] }, action) =>
             return { loading: true, grocery_items: [] }
 
         case GROCERY_ITEM_LIST_SUCCESS:
-            return { loading: false, grocery_items: action.payload }
+            return {
+                loading: false,
+                grocery_items: action.payload.grocery_items,
+                page: action.payload.page,
+                pages: action.payload.pages
+            }
 
         case GROCERY_ITEM_LIST_FAIL:
             return { loading: false, error: action.payload }
