@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Button, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import dateFormat from 'dateformat';
 
 import Loader from '../components/Loader';
 import Message from '../components/Message';
@@ -53,20 +54,22 @@ function OrderListPage({ history }) {
                                         <tr key={order._id}>
                                             <td>{order._id}</td>
                                             <td>{order.user && order.user.name}</td>
-                                            <td>{order.createdAt.subtring(0, 10)}</td>
+                                            <td>{dateFormat(order.createdAt, "dddd, mmmm dS, yyyy @ h:MM TT")}</td>
                                             <td>৳ {order.total_price}</td>
 
                                             <td>{order.isPaid ? (
-                                                order.paidAt.substring(0, 10)
+                                                dateFormat(order.paidAt, "dddd, mmmm dS, yyyy @ h:MM TT")
+                                                // order.paidAt.substring(0, 10)
                                             ) : (
-                                                <i className='fas fa-check' style={{ color: 'red' }}></i>
+                                                <i className='far fa-times-circle' style={{ color: 'red' }}></i>
                                             )}
                                             </td>
 
                                             <td>{order.isDelivered ? (
-                                                order.deliveredAt.substring(0, 10)
+                                                // order.deliveredAt.substring(0, 10)
+                                                dateFormat(order.createdAt, "dddd, mmmm dS, yyyy @ h:MM TT")
                                             ) : (
-                                                <i className='fas fa-check' style={{ color: 'red' }}></i>
+                                                <i className='far fa-times-circle' style={{ color: 'red' }}></i>
                                             )}
                                             </td>
 

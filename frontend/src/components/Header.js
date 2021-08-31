@@ -65,9 +65,9 @@ function Header() {
                                         <NavDropdown.Item>Grocery Items</NavDropdown.Item>
                                     </LinkContainer>
 
-                                    {/* <LinkContainer to='/admin/order-list'>
+                                    <LinkContainer to='/admin/order-list'>
                                         <NavDropdown.Item>Orders</NavDropdown.Item>
-                                    </LinkContainer> */}
+                                    </LinkContainer>
 
                                 </NavDropdown>
                             )}
