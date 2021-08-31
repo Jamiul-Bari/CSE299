@@ -31,7 +31,7 @@ function GroceryItemSlider() {
                                 <Link to={`/grocery-item/${hit_grocery._id}`}>
                                     <Image src={hit_grocery.image} alt={hit_grocery.name} fluid />
                                     <Carousel.Caption className='carousel.caption'>
-                                        <h4>{hit_grocery.name} (BDT. {hit_grocery.price})</h4>
+                                        <h4>{hit_grocery.name} (৳ {hit_grocery.price})</h4>
                                     </Carousel.Caption>
                                 </Link>
                             </Carousel.Item>
