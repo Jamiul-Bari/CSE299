@@ -11,7 +11,6 @@ import GroceryItemSlider from '../components/GroceryItemSlider';
 
 import { listGroceryItems } from '../actions/GroceryItemActions'
 
-import grocery_items from '../grocery_items';
 
 function HomePage({ history }) {
     const dispatch = useDispatch();
