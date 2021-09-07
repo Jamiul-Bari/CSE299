@@ -9,10 +9,11 @@ import Loader from '../components/Loader';
 import {
     getOrderDetails,
     deliverOrder,
+    payOrder,
 
 } from '../actions/OrderActions';
 
-import { ORDER_DELIVER_RESET } from '../constants/OrderConstants'
+import { ORDER_DELIVER_RESET, ORDER_PAY_RESET } from '../constants/OrderConstants';
 
 
 function OrderPage({ match, history }) {
@@ -22,7 +23,8 @@ function OrderPage({ match, history }) {
     const orderDetails = useSelector(state => state.orderDetails);
     const { order, error, loading } = orderDetails;
 
-    // orderPay
+    const orderPay = useSelector(state => state.orderPay);
+    const { loading: loadingPay, success: successPay } = orderPay;
 
     const orderDeliver = useSelector(state => state.orderDeliver);
     const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
@@ -42,17 +44,22 @@ function OrderPage({ match, history }) {
         }
 
         // If there is no order or the order id is not here yet, dispatch
-        if (!order || order._id !== Number(order_id) || successDeliver) {
+        if (!order || successPay || order._id !== Number(order_id) || successDeliver) {
             dispatch({ type: ORDER_DELIVER_RESET });
+            dispatch({ type: ORDER_PAY_RESET });
 
             dispatch(getOrderDetails(order_id));
         }
 
-    }, [dispatch, order, order_id, successDeliver]);
+    }, [dispatch, order, order_id, successPay, successDeliver]);
     // order from the serializer
 
     const deliverHandler = () => {
         dispatch(deliverOrder(order));
+    }
+
+    const successPaymentHandler = (paymentResult) => {
+        dispatch(payOrder(order_id, paymentResult));
     }
 
     return loading ? (
@@ -184,6 +191,23 @@ function OrderPage({ match, history }) {
                                 </Row>
                             </ListGroup.Item>
                         </ListGroup>
+
+                        {
+                            !order.isPaid && (
+                                <ListGroup.Item>
+
+                                    loadingPay ? <Loader />
+                                    : <Button
+                                        type='button'
+                                        className='btn btn-block'
+                                        onClick={successPaymentHandler}
+                                    >
+                                        Pay
+                                    </Button>
+
+                                </ListGroup.Item>
+                            )
+                        }
 
 
                         {
