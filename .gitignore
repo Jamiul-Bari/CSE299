@@ -50,7 +50,7 @@ frontend/yarn-debug.log*
 frontend/yarn-error.log*
 
 # Backend
-backend/db.sqlite3
+# backend/db.sqlite3
 backend/**/migrations/
 
 # Python #

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import dateFormat from 'dateformat';
 
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -58,8 +59,8 @@ function OrderPage({ match, history }) {
         dispatch(deliverOrder(order));
     }
 
-    const successPaymentHandler = (paymentResult) => {
-        dispatch(payOrder(order_id, paymentResult));
+    const successPaymentHandler = () => {
+        dispatch(payOrder(order_id));
     }
 
     return loading ? (
@@ -93,7 +94,7 @@ function OrderPage({ match, history }) {
                             </p>
 
                             {order.isDelivered ? (
-                                <Message variant='success'>Delivered on {order.deliveredAt}</Message>
+                                        <Message variant='success'>Delivered on {dateFormat(order.deliveredAt, "dddd, mmmm dS, yyyy @ h:MM TT")}</Message>
                             ) : (
                                 <Message variant='warning'>Not Delivered</Message>
                             )}
@@ -108,7 +109,7 @@ function OrderPage({ match, history }) {
                             </p>
 
                             {order.isPaid ? (
-                                <Message variant='success'>Paid on {order.paidAt}</Message>
+                                        <Message variant='success'>Paid on {dateFormat(order.paidAt, "dddd, mmmm dS, yyyy @ h:MM TT")}</Message>
                             ) : (
                                 <Message variant='warning'>Not Paid</Message>
                             )}
@@ -193,11 +194,14 @@ function OrderPage({ match, history }) {
                         </ListGroup>
 
                         {
+                            loadingPay && <Loader />
+                        }
+
+                        {
                             !order.isPaid && (
                                 <ListGroup.Item>
 
-                                    loadingPay ? <Loader />
-                                    : <Button
+                                    <Button
                                         type='button'
                                         className='btn btn-block'
                                         onClick={successPaymentHandler}
@@ -215,7 +219,7 @@ function OrderPage({ match, history }) {
                         }
 
                         {
-                            user_information && user_information.isAdmin && order.isPaid && !order.isDelivered && (
+                            user_information && user_information.is_admin && order.isPaid && !order.isDelivered && (
                                 <ListGroup.Item>
                                     <Button
                                         type='button'

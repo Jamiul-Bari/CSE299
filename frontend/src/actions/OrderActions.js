@@ -114,7 +114,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
     }
 }
 
-export const payOrder = (id, paymentResultFromSSL) => async (dispatch, getState) => {
+export const payOrder = (id) => async (dispatch, getState) => {
     try {
         dispatch({
             type: ORDER_PAY_REQUEST
@@ -133,7 +133,7 @@ export const payOrder = (id, paymentResultFromSSL) => async (dispatch, getState)
 
         const { data } = await axios.put(
             `/drf/orders/${id}/pay/`,
-            paymentResultFromSSL,
+            {},
             config
         );
 

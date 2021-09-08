@@ -178,7 +178,7 @@ export const update_user_profile = (user) => async (dispatch, getState) => {
         }
 
         const { data } = await axios.put(
-            `/drf/users/profile/update/`,
+            `/drf/users/profile/update`,
             user,
             config
         );
@@ -298,7 +298,7 @@ export const update_user = (user) => async (dispatch, getState) => {
         }
 
         const { data } = await axios.put(
-            `/drf/users/update/${user._id}/`,
+            `/drf/users/update/${user._id}`,
             user,
             config
         );
