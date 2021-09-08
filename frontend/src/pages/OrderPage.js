@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import dateFormat from 'dateformat';
 
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -9,10 +10,11 @@ import Loader from '../components/Loader';
 import {
     getOrderDetails,
     deliverOrder,
+    payOrder,
 
 } from '../actions/OrderActions';
 
-import { ORDER_DELIVER_RESET } from '../constants/OrderConstants'
+import { ORDER_DELIVER_RESET, ORDER_PAY_RESET } from '../constants/OrderConstants';
 
 
 function OrderPage({ match, history }) {
@@ -22,7 +24,8 @@ function OrderPage({ match, history }) {
     const orderDetails = useSelector(state => state.orderDetails);
     const { order, error, loading } = orderDetails;
 
-    // orderPay
+    const orderPay = useSelector(state => state.orderPay);
+    const { loading: loadingPay, success: successPay } = orderPay;
 
     const orderDeliver = useSelector(state => state.orderDeliver);
     const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
@@ -42,17 +45,22 @@ function OrderPage({ match, history }) {
         }
 
         // If there is no order or the order id is not here yet, dispatch
-        if (!order || order._id !== Number(order_id) || successDeliver) {
+        if (!order || successPay || order._id !== Number(order_id) || successDeliver) {
             dispatch({ type: ORDER_DELIVER_RESET });
+            dispatch({ type: ORDER_PAY_RESET });
 
             dispatch(getOrderDetails(order_id));
         }
 
-    }, [dispatch, order, order_id, successDeliver]);
+    }, [dispatch, order, order_id, successPay, successDeliver]);
     // order from the serializer
 
     const deliverHandler = () => {
         dispatch(deliverOrder(order));
+    }
+
+    const successPaymentHandler = () => {
+        dispatch(payOrder(order_id));
     }
 
     return loading ? (
@@ -86,7 +94,7 @@ function OrderPage({ match, history }) {
                             </p>
 
                             {order.isDelivered ? (
-                                <Message variant='success'>Delivered on {order.deliveredAt}</Message>
+                                        <Message variant='success'>Delivered on {dateFormat(order.deliveredAt, "dddd, mmmm dS, yyyy @ h:MM TT")}</Message>
                             ) : (
                                 <Message variant='warning'>Not Delivered</Message>
                             )}
@@ -101,7 +109,7 @@ function OrderPage({ match, history }) {
                             </p>
 
                             {order.isPaid ? (
-                                <Message variant='success'>Paid on {order.paidAt}</Message>
+                                        <Message variant='success'>Paid on {dateFormat(order.paidAt, "dddd, mmmm dS, yyyy @ h:MM TT")}</Message>
                             ) : (
                                 <Message variant='warning'>Not Paid</Message>
                             )}
@@ -185,13 +193,33 @@ function OrderPage({ match, history }) {
                             </ListGroup.Item>
                         </ListGroup>
 
+                        {
+                            loadingPay && <Loader />
+                        }
+
+                        {
+                            !order.isPaid && (
+                                <ListGroup.Item>
+
+                                    <Button
+                                        type='button'
+                                        className='btn btn-block'
+                                        onClick={successPaymentHandler}
+                                    >
+                                        Pay
+                                    </Button>
+
+                                </ListGroup.Item>
+                            )
+                        }
+
 
                         {
                             loadingDeliver && <Loader />
                         }
 
                         {
-                            user_information && user_information.isAdmin && order.isPaid && !order.isDelivered && (
+                            user_information && user_information.is_admin && order.isPaid && !order.isDelivered && (
                                 <ListGroup.Item>
                                     <Button
                                         type='button'

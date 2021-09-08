@@ -9,7 +9,7 @@ import FormContainer from '../components/FormContainer';
 
 import { get_user_details, update_user } from '../actions/UserActions';
 
-import { USER_UPDATE_RESET } from '../constants/UserConstants'
+import { USER_UPDATE_RESET } from '../constants/UserConstants';
 
 function UserEditPage({ match, history }) {
 

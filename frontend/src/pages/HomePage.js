@@ -25,8 +25,9 @@ function HomePage({ history }) {
 
     return (
         <div>
+            <h1>Top Rated Grocery</h1>
             {!keyword && <GroceryItemSlider />}
-            <h1>Latest Products</h1>
+            <h1 className='mt-5'>Latest Products</h1>
             {
                 loading ? <Loader />
                     : error ? <Message variant='danger'>{error}</Message>

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Form, Row, Col, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
+import dateFormat from 'dateformat';
 
 import Loader from '../components/Loader';
 import Message from '../components/Message';
@@ -48,7 +49,7 @@ function ProfilePage({ history }) {
                 setEmail(user.email);
             }
         }
-    }, [dispatch, history, user_information, user])
+    }, [dispatch, history, user_information, user, success])
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -151,6 +152,7 @@ function ProfilePage({ history }) {
                                     <th>Total</th>
                                     <th>Paid</th>
                                     <th>Delivered</th>
+                                    <th>Details</th>
                                 </tr>
                             </thead>
 
@@ -160,7 +162,10 @@ function ProfilePage({ history }) {
                                         <td>{order._id}</td>
                                         <td>{order.createdAt.substring(0, 10)}</td>
                                         <td>৳ {order.totalPrice}</td>
-                                        <td>{order.isPaid ? order.paidAtsubstring(0, 10) : (
+                                        <td>{order.isPaid ? dateFormat(order.paidAt, "dddd, mmmm dS, yyyy @ h:MM TT") : (
+                                            <i className='fas fa-times' style={{ color: 'red' }}></i>
+                                        )}</td>
+                                        <td>{order.isDelivered ? dateFormat(order.deliveredAt, "dddd, mmmm dS, yyyy @ h:MM TT") : (
                                             <i className='fas fa-times' style={{ color: 'red' }}></i>
                                         )}</td>
                                         <td>

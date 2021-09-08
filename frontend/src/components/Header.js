@@ -30,7 +30,7 @@ function Header() {
 
                         <SearchBar />
 
-                        <Nav className="mr-auto">
+                        <Nav className="ml-auto">
                             <LinkContainer to="/cart">
                                 <Nav.Link>
                                     <i className="fas fa-shopping-cart"></i>Cart
@@ -55,7 +55,7 @@ function Header() {
                             )}
 
                             {user_information && user_information.is_admin && (
-                                <NavDropdown id='adminmenu' title='Admin'>
+                                <NavDropdown id='adminmenue' title='Admin'>
 
                                     <LinkContainer to='/admin/user-list'>
                                         <NavDropdown.Item>Users</NavDropdown.Item>
