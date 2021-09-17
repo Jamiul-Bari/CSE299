@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Button, Card, Form } from 'react-bootstrap';
+import dateFormat from 'dateformat';
 
 import Rating from '../components/Rating';
 import Loader from '../components/Loader';
@@ -174,7 +175,7 @@ function GroceryItemPage({ match, history }) {
                                                     <strong>{review.name}</strong>
                                                     <Rating value={review.rating} color='#f8e825' />
 
-                                                    <p>P{review.createdAt.substring(0, 10)}</p>
+                                                    <p>{dateFormat(review.createdAt, "dddd, mmmm dS, yyyy @ h:MM TT")}</p>
                                                     <p>{review.comment}</p>
                                                 </ListGroup.Item>
                                             ))}

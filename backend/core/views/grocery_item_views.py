@@ -112,7 +112,9 @@ def delete_grocery_item(request, pk):
 
 @api_view(['POST'])
 def upload_image(request):
+    print("Entered")
     data = request.data
+    print(data)
 
     grocery_item_id = data['grocery_item_id']
     grocery_item = GroceryItem.objects.get(_id=grocery_item_id)
@@ -120,6 +122,7 @@ def upload_image(request):
     grocery_item.image = request.FILES.get('image')
     grocery_item.save()
 
+    print("Uploaded")
     return Response('Grocery Image is uploaded')
 
 

@@ -234,7 +234,7 @@ export const createGroceryItemReview = (grocery_item_id, review) => async (dispa
         }
 
         const { data } = await axios.post(
-            `/drf/grocery-items/${grocery_item_id._id}/reviews/`,
+            `/drf/grocery-items/${grocery_item_id._id}/reviews`,
             review,
             config
         );

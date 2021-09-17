@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Container, Col, Row } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 
-
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+
+import { removeFromCart } from '../actions/CartActions'
 
 
 function VoiceRecognition() {
@@ -30,14 +31,33 @@ function VoiceRecognition() {
         {
             command: [
                 "Add * to the cart",
+                "Add * to the card",
                 "Add * to cart",
+                "Add * to card",
             ],
             callback: (addThis) => setGroceryItemToAdd(addThis),
+        },
+        {
+            command: [
+                "Proceed to *",
+                "*",
+
+            ],
+            callback: (redirectCheckout) => setCheckout(redirectCheckout),
         },
         {
             command: 'My name is *',          //command the user says, * is any input
             callback: (name) => setDisplay(`Hello, ${name}! Nice to meet you!`)   //set the display to this response
         }
+        // {
+        //     command: [
+        //         "Remove * from the cart",
+        //         "Remove * from the card",
+        //         "Remove * from cart",
+        //         "Remove * from card",
+        //     ],
+        //     callback: (removeThis) => setGroceryItemToRemove(removeThis),
+        // },
     ]
 
     const { transcript, resetTranscript } = useSpeechRecognition({ commands })
@@ -45,7 +65,9 @@ function VoiceRecognition() {
     // from the useSpeechRecognition() function
 
     const [redirectUrl, setRedirectUrl] = useState('');
+    const [checkout, setCheckout] = useState('');
     const [groceryItemToAdd, setGroceryItemToAdd] = useState('');
+    // const [groceryItemToRemove, setGroceryItemToRemove] = useState('');
 
     const pages = [
         "home",
@@ -53,10 +75,14 @@ function VoiceRecognition() {
         "registration",
         "profile",
         "checkout",
+        "check out",
         "cart",
+        "card",
         "Shopping Cart",
         "place order",
         "User list",
+        "userlist",
+        "Users list",
         "order list",
         "grocery item list",
     ];
@@ -67,10 +93,14 @@ function VoiceRecognition() {
         registration: "/register",
         profile: "/profile",
         checkout: "/checkout",
+        "check out": "/checkout",
         cart: "/cart",
+        card: "/cart",
         "Shopping Cart": "/cart",
         "place order": "/place-order",
         "User list": "/admin/user-list",
+        "userlist": "/admin/user-list",
+        "Users list": "/admin/user-list",
         "order list": "/admin/order-list",
         "grocery item list": "/admin/grocery-item-list",
     }
@@ -94,6 +124,10 @@ function VoiceRecognition() {
         }
     }
 
+    if(checkout === 'checkout'.toLowerCase()) {
+        redirect = <Redirect to={'/login?redirect=checkout'} />
+    }
+
     if (groceryItemToAdd) {
         let groceryItemFromArray = grocery_items.filter(item => item.name.toLowerCase() === groceryItemToAdd.toLowerCase());
         console.log(groceryItemFromArray);
@@ -105,6 +139,19 @@ function VoiceRecognition() {
             redirect = <Redirect to={`cart/${groceryItemFromArray[0]._id}?qty=1`} />
         }
     }
+
+    // if(groceryItemToRemove) {
+    //     let groceryItemFromArray = grocery_items.filter(item => item.name.toLowerCase() === groceryItemToAdd.toLowerCase());
+    //     console.log(groceryItemFromArray);
+
+    //     if (groceryItemFromArray.length === 0) {
+    //         redirect = <p>Could not find grocery item: {groceryItemToRemove}</p>
+    //     }
+    //     else {
+    //         const dispatch = useDispatch();
+    //         redirect = dispatch(removeFromCart());
+    //     }
+    // }
 
 
     return (
