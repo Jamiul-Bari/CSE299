@@ -29,7 +29,11 @@ function GroceryItemSlider() {
                         {grocery_items.map(hit_grocery => (
                             <Carousel.Item key={hit_grocery._id}>
                                 <Link to={`/grocery-item/${hit_grocery._id}`}>
-                                    <Image src={hit_grocery.image} alt={hit_grocery.name} fluid />
+                                    <Image
+                                        src={hit_grocery.image}
+                                        alt={hit_grocery.name}
+                                        fluid
+                                    />
                                     <Carousel.Caption className='carousel.caption'>
                                         <h4>{hit_grocery.name} (৳ {hit_grocery.price})</h4>
                                     </Carousel.Caption>

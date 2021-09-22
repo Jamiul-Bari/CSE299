@@ -1,10 +1,10 @@
 import { useState } from 'react';
-// import { Route as RR } from 'react-router';
-import { Container } from 'react-bootstrap';
+import { Button, Container, Col, Row } from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
+import VoiceRecognition from './components/VoiceRecognition';
 
 import HomePage from './pages/HomePage';
 import GroceryItemPage from './pages/GroceryItemPage';
@@ -22,104 +22,16 @@ import GroceryItemListPage from './pages/GroceryItemListPage';
 import GroceryItemEditPage from './pages/GroceryItemEditPage';
 import OrderListPage from './pages/OrderListPage';
 
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 
 function App() {
-
-    // let history = useHistory();
-
-    const [display, setDisplay] = useState('') //display for our message
-    const commands = [
-        {
-            command: [
-                "Go to * as admin",
-                "Go to * page",
-                "Go to *",
-                "Go to my *",
-                "Open * page",
-                "Open *",
-            ],
-            callback: (redirectPage) => setRedirectUrl(redirectPage),
-            // command: 'My name is *',          //command the user says, * is any input
-            // callback: (name) => setDisplay(`Hello, ${name}! Nice to meet you!`)   //set the display to this response
-        },
-        // {
-        //     command: 'Go to *',
-        //     callback: ($url) => console.log(this.props.history)
-        // }
-    ]
-
-    const { transcript, resetTranscript } = useSpeechRecognition({ commands })
-    //similar to useState, create a transcript and resetTranscript func
-    // from the useSpeechRecognition() function
-
-    const [redirectUrl, setRedirectUrl] = useState('');
-
-    const pages = [
-        "home",
-        "login",
-        "registration",
-        "profile",
-        "checkout",
-        "cart",
-        "Shopping Cart",
-        "place order",
-        "User list",
-        "order list",
-        "grocery item list",
-    ];
-
-    const urls = {
-        home: "/",
-        login: "/login",
-        registration: "/register",
-        profile: "/profile",
-        checkout: "/checkout",
-        cart: "/cart",
-        "Shopping Cart": "/cart",
-        "place order": "/place-order",
-        "User list": "/admin/user-list",
-        "order list": "/admin/order-list",
-        "grocery item list": "/admin/grocery-item-list",
-    }
-
-
-
-    if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
-        return null;
-        // Disable it instead of returning null.
-    }
-
-    let redirect = "";
-
-    if (redirectUrl) {
-        if (pages.includes(redirectUrl)) {
-            redirect = <Redirect to={urls[redirectUrl]} />
-        }
-        else {
-            redirect = <p>Could not find page: {redirectUrl}</p>
-        }
-    }
-
 
     return (
         <Router>
             <Header />
 
-            <div className="App">
-                <h1>Voice Command</h1>
-                <button onClick={SpeechRecognition.startListening}>
-                    Listen!
-                </button>
-                <button onClick={SpeechRecognition.stopListening}>
-                    Stop!
-                </button>
-                <button onClick={resetTranscript}>
-                    Reset
-                </button>
-                <p>{transcript}</p>
-            </div>
+
+
 
             {/* <div>
                 <h1>Commands</h1>
@@ -138,7 +50,10 @@ function App() {
 
 
             <main className="py-3">
+                {/* <VoiceRecognition /> */}
                 <Container>
+                    <VoiceRecognition />
+
                     <Route path='/' component={HomePage} exact />
                     <Route path='/login' component={LoginPage} />
                     <Route path='/register' component={RegisterPage} />
@@ -160,8 +75,6 @@ function App() {
 
                 </Container>
             </main>
-
-            {redirect}
 
             <Footer />
         </Router>
